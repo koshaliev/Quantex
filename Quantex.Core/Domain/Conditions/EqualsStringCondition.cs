@@ -17,5 +17,5 @@ public sealed class EqualsStringCondition : ICondition
         ExpectedValue = expectedValue;
     }
 
-    public bool IsSatisfied(Dictionary<string, object> context) => context.TryGetValue(Key, out var value) && value is string sValue && ExpectedValue.Equals(sValue, StringComparison.OrdinalIgnoreCase);
+    public bool IsSatisfied(Dictionary<string, object> context) => context.TryGetValue(Key, out var value) && value is string sValue && ExpectedValue.Equals(sValue, StringComparison.InvariantCultureIgnoreCase);
 }

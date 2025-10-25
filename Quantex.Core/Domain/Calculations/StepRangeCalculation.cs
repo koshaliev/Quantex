@@ -47,9 +47,7 @@ public sealed class StepRangeCalculation : ICalculationMethod
         for (int i = 1; i < ranges.Count; i++)
         {
             if (ranges[i].From != ranges[i - 1].To)
-            {
                 throw new ArgumentException("Ranges must be continuous and non-overlapping");
-            }
         }
     }
 }
@@ -80,7 +78,7 @@ public sealed class StepRangeRule
         cost = Type switch // TODO: may be strategy pattern again?
         {
             StepRangeRuleType.FixedAmount => Value,
-            StepRangeRuleType.Percentage => (Math.Min(amount, To) - From) / 100m * Value,
+            StepRangeRuleType.Percentage => amount / 100m * Value,
             _ => throw new NotSupportedException($"Unsupported StepRangeRuleType: {Type}")
         };
         return true;

@@ -4,8 +4,6 @@ namespace Quantex.Core.Domain.Calculations;
 
 public sealed class WithAddedContextValueCalculation : ICalculationMethod
 {
-    public string CalculationType { get; set; } = "with-addition";
-
     public string Key { get; init; }
     public decimal Amount { get; init; }
     public ICalculationMethod Calculation { get; init; }
@@ -29,13 +27,12 @@ public sealed class WithAddedContextValueCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-        {
             throw new ArgumentException($"Key '{Key}' not found or is not a decimal in the context.");
-        }
 
+        var originalValue = decimalValue;
         context[Key] = decimalValue + Amount;
         var amount = Calculation.Calculate(context);
-        context[Key] = decimalValue - Amount;
+        context[Key] = originalValue;
 
         return amount;
     }

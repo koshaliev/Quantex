@@ -52,9 +52,7 @@ public sealed class TieredRangeCalculation : ICalculationMethod
         for (int i = 1; i < ranges.Count; i++)
         {
             if (ranges[i].From != ranges[i - 1].To)
-            {
                 throw new ArgumentException("Ranges must be continuous and non-overlapping");
-            }
         }
     }
 }
@@ -75,7 +73,7 @@ public class TieredRangeRule
         Type = type;
     }
 
-    public bool IsInRange(decimal amount) => amount >= From && amount < To;
+    public bool IsInRange(decimal amount) => amount >= From;
 
     public bool TryGetCost(decimal amount, out decimal cost)
     {
@@ -86,7 +84,7 @@ public class TieredRangeRule
         cost = Type switch
         {
             TieredRangeType.FixedAmount => Value,
-            TieredRangeType.Percentage => (Math.Min(amount, To) - From) * Value / 100m,
+            TieredRangeType.Percentage => (Math.Min(amount, To) - From) / 100m * Value,
             _ => throw new NotSupportedException($"Unsupported TieredRangeType: {Type}")
         };
         return true;

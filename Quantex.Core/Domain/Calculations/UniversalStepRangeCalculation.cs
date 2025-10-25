@@ -30,9 +30,7 @@ public sealed class UniversalStepRangeCalculation : ICalculationMethod
         for (int i = 0; i < Ranges.Count; i++)
         {
             if (IsInRange(Ranges[i], decimalValue))
-            {
                 return Ranges[i].GetCost(context);
-            }
         }
 
         throw new ArgumentException($"No range found for value {decimalValue}");
@@ -56,9 +54,7 @@ public sealed class UniversalStepRangeCalculation : ICalculationMethod
         for (int i = 1; i < ranges.Count; i++)
         {
             if (ranges[i].From != ranges[i - 1].To)
-            {
                 throw new ArgumentException("Ranges must be continuous and non-overlapping");
-            }
         }
     }
 }

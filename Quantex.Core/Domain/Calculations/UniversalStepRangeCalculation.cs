@@ -12,7 +12,7 @@ public sealed class UniversalStepRangeCalculation : ICalculationMethod
 
 #nullable disable
     [JsonConstructor]
-    private UniversalStepRangeCalculation() { }
+    public UniversalStepRangeCalculation() { }
 #nullable enable
 
     public UniversalStepRangeCalculation(string key, List<UniversalStepRangeRule> ranges)

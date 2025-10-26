@@ -19,9 +19,8 @@ public sealed class AdditionAmountCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-        {
             throw new ArgumentException($"Key '{Key}' not found or is not a decimal in the context.");
-        }
+
         return decimalValue + Amount;
     }
 }

@@ -47,7 +47,7 @@ public sealed class StepRangeCalculation : ICalculationMethod
         for (int i = 1; i < ranges.Count; i++)
         {
             if (ranges[i].From != ranges[i - 1].To)
-                throw new ArgumentException("Ranges must be continuous and non-overlapping");
+                throw new ArgumentException($"Ranges must be continuous and non-overlapping. Problem in range with index = {i}: {ranges[i]}");
         }
     }
 }
@@ -84,5 +84,5 @@ public sealed class StepRangeRule
         return true;
     }
 
-    public override string ToString() => $"[{From}..{To}) @ {Type}: {Value}{(Type == StepRangeRuleType.Percentage ? " %" : string.Empty)}";
+    public override string ToString() => $"[{From}..{To}) @ {Type}: {Value}{(Type == StepRangeRuleType.Percentage ? "%" : string.Empty)}";
 }

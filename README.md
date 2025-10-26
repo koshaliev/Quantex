@@ -7,18 +7,18 @@
 
 Структура системы состоит из четырех уровней:
 
-### 1. [ExpenseUnit](./Quantex.Core/Domain/ExpenseUnit.cs)
+### 1. [ExpenseUnit](./Quantex.Core/ExpenseUnit.cs)
 Единица расхода - минимальный элемент расчета.
 
 Состоит из двух компонентов:
-- [ICalculationMethod](./Quantex.Core/Domain/Calculations/ICalculationMethod.cs) - определяет метод вычисления
-- [ICondition](./Quantex.Core/Domain/Conditions/ICondition.cs) - задает условие применения данной единицы расхода
+- [ICalculationMethod](./Quantex.Core/Calculations/ICalculationMethod.cs) - определяет метод вычисления
+- [ICondition](./Quantex.Core/Conditions/ICondition.cs) - задает условие применения данной единицы расхода
 
 Например, 20% от цены товара.
 
 ---
 
-### 2. [ExpenseGroup](./Quantex.Core/Domain/ExpenseGroup.cs)
+### 2. [ExpenseGroup](./Quantex.Core/ExpenseGroup.cs)
 Группа расходов - объединяет (группирует) несколько `ExpenseUnit`, относящиеся к одной логической категории. 
 
 Например, группа **Упаковка товара** может включать:
@@ -27,7 +27,7 @@
 
 ---
 
-### 3. [ExpenseProfile](./Quantex.Core/Domain/ExpenseProfile.cs)
+### 3. [ExpenseProfile](./Quantex.Core/ExpenseProfile.cs)
 Профиль объединяет несколько `ExpenseGroup`.
 Позволяет описать полный набор расходов при выполнении заданного условия (например, конкретный тип товара или категория).
 
@@ -38,7 +38,7 @@
 
 ---
 
-### 4. [ExpenseScheme](./Quantex.Core/Domain/ExpenseScheme.cs)
+### 4. [ExpenseScheme](./Quantex.Core/ExpenseScheme.cs)
 Схема объединяет несколько `ExpenseProfile`.
 
 Например, 
@@ -49,31 +49,31 @@
 ---
 
 #### Методы вычисления (реализации интерфейса `ICalculationMethod`)
-- [FixedAmountCalculation](./Quantex.Core/Domain/Calculations/FixedAmountCalculation.cs) - возвращает фиксированную заданную сумму.
-- [PercentageCalculation](./Quantex.Core/Domain/Calculations/PercentageCalculation.cs) - вычисляет процент от значения, указанного в контексте.
-- [StepRangeCalculation](./Quantex.Core/Domain/Calculations/StepRangeCalculation.cs) - выбирает значение по шаговому диапазону, соответствующему входным данным.
-- [TieredRangeCalculation](./Quantex.Core/Domain/Calculations/TieredRangeCalculation.cs) - вычисляет результат на основе суммирования значений по диапазонам
-- [SumAmountCalculation](./Quantex.Core/Domain/Calculations/SumAmountCalculation.cs) - суммирует результаты нескольких вложенных вычислений.
-- [MaxAmountCalculation](./Quantex.Core/Domain/Calculations/MaxAmountCalculation.cs) - возвращает максимальное значение среди результатов подвычислений.
-- [MinAmountCalculation](./Quantex.Core/Domain/Calculations/MinAmountCalculation.cs) - возвращает минимальное значение среди результатов подвычислений.
-- [ClampedCalculation](./Quantex.Core/Domain/Calculations/ClampedCalculation.cs) - ограничивает результат вычисления заданными минимальным и максимальным значениями.
-- [TernaryCalculation](./Quantex.Core/Domain/Calculations/TernaryCalculation.cs) - выбирает одно из двух вычислений в зависимости от условия.
-- [AdditionAmountCalculation](./Quantex.Core/Domain/Calculations/AdditionAmountCalculation.cs) - прибавляет фиксированное значение к значению из контекста и возвращает результат, не изменяя контекст.
-- [MultiplyAmountCalculation](./Quantex.Core/Domain/Calculations/MultiplyAmountCalculation.cs) - умножает значение из контекста на фиксированное число и возвращает результат, не изменяя контекст.
-- [WithAddedContextValueCalculation](./Quantex.Core/Domain/Calculations/WithAddedContextValueCalculation.cs) - временно добавляет к значению из контекста фиксированное число перед вычислением и после завершения возвращает исходное значение.
-- [WithMultipliedContextValueCalculation](./Quantex.Core/Domain/Calculations/WithMultipliedContextValueCalculation.cs) - временно умножает значение из контекста на фиксированный коэффициент перед вычислением и затем восстанавливает исходное значение.
+- [FixedAmountCalculation](./Quantex.Core/Calculations/FixedAmountCalculation.cs) - возвращает фиксированную заданную сумму.
+- [PercentageCalculation](./Quantex.Core/Calculations/PercentageCalculation.cs) - вычисляет процент от значения, указанного в контексте.
+- [StepRangeCalculation](./Quantex.Core/Calculations/StepRangeCalculation.cs) - выбирает значение по шаговому диапазону, соответствующему входным данным.
+- [TieredRangeCalculation](./Quantex.Core/Calculations/TieredRangeCalculation.cs) - вычисляет результат на основе суммирования значений по диапазонам
+- [SumAmountCalculation](./Quantex.Core/Calculations/SumAmountCalculation.cs) - суммирует результаты нескольких вложенных вычислений.
+- [MaxAmountCalculation](./Quantex.Core/Calculations/MaxAmountCalculation.cs) - возвращает максимальное значение среди результатов подвычислений.
+- [MinAmountCalculation](./Quantex.Core/Calculations/MinAmountCalculation.cs) - возвращает минимальное значение среди результатов подвычислений.
+- [ClampedCalculation](./Quantex.Core/Calculations/ClampedCalculation.cs) - ограничивает результат вычисления заданными минимальным и максимальным значениями.
+- [TernaryCalculation](./Quantex.Core/Calculations/TernaryCalculation.cs) - выбирает одно из двух вычислений в зависимости от условия.
+- [AdditionAmountCalculation](./Quantex.Core/Calculations/AdditionAmountCalculation.cs) - прибавляет фиксированное значение к значению из контекста и возвращает результат, не изменяя контекст.
+- [MultiplyAmountCalculation](./Quantex.Core/Calculations/MultiplyAmountCalculation.cs) - умножает значение из контекста на фиксированное число и возвращает результат, не изменяя контекст.
+- [WithAddedContextValueCalculation](./Quantex.Core/Calculations/WithAddedContextValueCalculation.cs) - временно добавляет к значению из контекста фиксированное число перед вычислением и после завершения возвращает исходное значение.
+- [WithMultipliedContextValueCalculation](./Quantex.Core/Calculations/WithMultipliedContextValueCalculation.cs) - временно умножает значение из контекста на фиксированный коэффициент перед вычислением и затем восстанавливает исходное значение.
 
 ---
 
 #### Условия (реализации интерфейса `ICondition`)
-- [EqualsNumberCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - проверяет, равно ли числовое значение в контексте заданному числу.
-- [EqualsStringCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - проверяет, совпадает ли строковое значение в контексте с заданной строкой.
-- [GreaterThanCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - возвращает true, если числовое значение в контексте больше указанного порога.
-- [LessThanCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - возвращает true, если числовое значение в контексте меньше указанного порога.
-- [LessThanOrEqualCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - возвращает true, если числовое значение меньше или равно заданному порогу.
-- [AndCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - объединяет несколько условий логическим «И» и выполняется, если все условия истинны.
-- [OrCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - объединяет несколько условий логическим «ИЛИ» и выполняется, если хотя бы одно условие истинно.
-- [NotCondition](./Quantex.Core/Domain/Conditions/EqualsNumberCondition.cs) - инвертирует результат вложенного условия.
+- [EqualsNumberCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - проверяет, равно ли числовое значение в контексте заданному числу.
+- [EqualsStringCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - проверяет, совпадает ли строковое значение в контексте с заданной строкой.
+- [GreaterThanCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - возвращает true, если числовое значение в контексте больше указанного порога.
+- [LessThanCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - возвращает true, если числовое значение в контексте меньше указанного порога.
+- [LessThanOrEqualCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - возвращает true, если числовое значение меньше или равно заданному порогу.
+- [AndCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - объединяет несколько условий логическим «И» и выполняется, если все условия истинны.
+- [OrCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - объединяет несколько условий логическим «ИЛИ» и выполняется, если хотя бы одно условие истинно.
+- [NotCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - инвертирует результат вложенного условия.
 
 ---
 

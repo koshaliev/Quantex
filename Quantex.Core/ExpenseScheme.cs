@@ -16,7 +16,6 @@ public class ExpenseScheme
     [JsonIgnore]
     public Dictionary<string, HashSet<string>> RequiredKeysByProfileName { get; } = [];
 
-    [JsonConstructor]
     public ExpenseScheme(string name, List<ExpenseProfile> profiles, string? description = null)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));

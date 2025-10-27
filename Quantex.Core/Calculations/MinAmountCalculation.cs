@@ -4,24 +4,36 @@ namespace Quantex.Core.Calculations;
 
 public sealed class MinAmountCalculation : ICalculationMethod
 {
-    public List<ICalculationMethod> Calculations { get; }
+    [JsonIgnore]
+    private List<string>? _requiredKeys;
+
+    public List<ICalculationMethod> Calculations { get; init; }
 
     [JsonIgnore]
-    public List<string> RequiredKeys { get; } = [];
+    public List<string> RequiredKeys
+    {
+        get
+        {
+            if (_requiredKeys is null)
+            {
+                _requiredKeys = [];
+                for (int i = 0; i < Calculations.Count; i++)
+                {
+                    for (int j = 0; j < Calculations[i].RequiredKeys.Count; j++)
+                    {
+                        _requiredKeys.Add(Calculations[i].RequiredKeys[j]);
+                    }
+                }
+            }
+            return _requiredKeys;
+        }
+    }
 
-    [JsonConstructor]
     public MinAmountCalculation(List<ICalculationMethod> calculations)
     {
         Calculations = calculations ?? throw new ArgumentNullException(nameof(calculations));
         if (Calculations.Count == 0)
             throw new ArgumentException("At least one calculation method must be provided.", nameof(calculations));
-
-        for (int i = 0; i < Calculations.Count; i++)
-        {
-            if (Calculations[i] is null)
-                throw new ArgumentException($"Calculation method at index {i} is null.", nameof(calculations));
-            RequiredKeys.AddRange(Calculations[i].RequiredKeys);
-        }
     }
 
     public decimal Calculate(Dictionary<string, object> context)

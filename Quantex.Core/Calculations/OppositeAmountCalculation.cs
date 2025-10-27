@@ -4,7 +4,7 @@ namespace Quantex.Core.Calculations;
 
 public sealed class OppositeAmountCalculation : ICalculationMethod
 {
-    public ICalculationMethod Calculation { get; }
+    public ICalculationMethod Calculation { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => Calculation.RequiredKeys;

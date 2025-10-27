@@ -11,6 +11,9 @@ namespace Quantex.Core;
 /// </summary>
 public class ExpenseGroup
 {
+    [JsonIgnore]
+    private List<string>? _requiredKeys;
+
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
@@ -18,12 +21,32 @@ public class ExpenseGroup
     public List<ExpenseUnit> Expenses { get; set; }
 
     [JsonIgnore]
-    public List<string> RequiredKeys { get; } = [];
+    public List<string> RequiredKeys
+    {
+        get
+        {
+            if (_requiredKeys is null)
+            {
+                _requiredKeys = [];
+                if (Condition is not null)
+                {
+                    for (int i = 0; i < Condition.RequiredKeys.Count; i++)
+                    {
+                        _requiredKeys.Add(Condition.RequiredKeys[i]);
+                    }
+                }
 
-#nullable disable
-    [JsonConstructor]
-    public ExpenseGroup() { }
-#nullable enable
+                for (int i = 0; i < Expenses.Count; i++)
+                {
+                    for (int j = 0; j < Expenses[i].RequiredKeys.Count; j++)
+                    {
+                        _requiredKeys.Add(Expenses[i].RequiredKeys[j]);
+                    }
+                }
+            }
+            return _requiredKeys;
+        }
+    }
 
     public ExpenseGroup(string name, string displayName, List<ExpenseUnit> expenses, string? description = null, ICondition? condition = null)
     {
@@ -36,14 +59,6 @@ public class ExpenseGroup
         if (expenses.Count == 0)
             throw new ArgumentException("At least one expense unit must be provided.", nameof(expenses));
         Expenses = expenses;
-
-        if (Condition is not null)
-            RequiredKeys.AddRange(Condition.RequiredKeys);
-
-        for (int i = 0; i < Expenses.Count; i++)
-        {
-            RequiredKeys.AddRange(Expenses[i].RequiredKeys);
-        }
     }
 
     public bool TryCalculate(Dictionary<string, object> context, [NotNullWhen(true)] out Dictionary<string, decimal>? expenseAmounts)

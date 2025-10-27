@@ -10,7 +10,6 @@ public sealed class GreaterThanCondition : ICondition
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    [JsonConstructor]
     public GreaterThanCondition(string key, decimal value)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));

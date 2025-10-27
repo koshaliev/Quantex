@@ -10,7 +10,6 @@ public sealed class LessThanOrEqualCondition : ICondition
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    [JsonConstructor]
     public LessThanOrEqualCondition(string key, decimal value)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));

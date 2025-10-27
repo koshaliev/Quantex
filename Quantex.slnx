@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Quantex.Core/Quantex.Core.csproj" />
-  <Project Path="Quantext.Tests/Quantext.Tests.csproj" Id="b77db0e2-5da5-4c83-823e-6fd110b7b6c8" />
+  <Project Path="Quantex.Example/Quantex.Example.csproj" Id="005c8e24-930b-4abf-b190-a309264d0303" />
+  <Project Path="Quantext.Core.Tests/Quantext.Core.Tests.csproj" Id="b77db0e2-5da5-4c83-823e-6fd110b7b6c8" />
 </Solution>

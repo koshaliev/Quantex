@@ -10,7 +10,6 @@ public sealed class PercentageCalculation : ICalculationMethod
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    [JsonConstructor]
     public PercentageCalculation(string key, decimal percentage)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));
@@ -20,7 +19,7 @@ public sealed class PercentageCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-            throw new ArgumentException($"Invalid context for {nameof(PercentageCalculation)}. Key \"{Key}\" not found");
+            throw new ArgumentException($"Invalid context for {nameof(PercentageCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
         return decimalValue / 100m * Percentage;
     }

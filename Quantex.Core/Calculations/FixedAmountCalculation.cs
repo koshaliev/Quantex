@@ -9,7 +9,6 @@ public sealed class FixedAmountCalculation : ICalculationMethod
     [JsonIgnore]
     public List<string> RequiredKeys => [];
 
-    [JsonConstructor]
     public FixedAmountCalculation(decimal amount) => Amount = amount;
 
     public decimal Calculate(Dictionary<string, object> context) => Amount;

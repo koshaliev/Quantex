@@ -1,17 +1,16 @@
-﻿using System.Text.Json.Serialization;
-using Quantex.Core.Calculations.Enums;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Quantex.Core.Calculations;
 
 public sealed class StepRangeCalculation : ICalculationMethod
 {
     public string Key { get; init; }
-    public IReadOnlyList<StepRangeRule> Ranges { get; init; }
+    public List<StepRangeRule> Ranges { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    [JsonConstructor]
     public StepRangeCalculation(string key, List<StepRangeRule> ranges)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));
@@ -21,7 +20,7 @@ public sealed class StepRangeCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-            throw new ArgumentException($"Invalid context for {nameof(StepRangeCalculation)}. Key \"{Key}\" not found or Value is not decimal");
+            throw new ArgumentException($"Invalid context for {nameof(StepRangeCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
         for (int i = 0; i < Ranges.Count; i++)
         {
@@ -65,6 +64,9 @@ public sealed class StepRangeRule
         From = from;
         To = to;
         Value = value;
+        
+        if (!Enum.IsDefined(type))
+            throw new ArgumentException($"Invalid enum value for {typeof(StepRangeRuleType).Name}.");
         Type = type;
     }
 
@@ -85,4 +87,11 @@ public sealed class StepRangeRule
     }
 
     public override string ToString() => $"[{From}..{To}) @ {Type}: {Value}{(Type == StepRangeRuleType.Percentage ? "%" : string.Empty)}";
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter<StepRangeRuleType>))]
+public enum StepRangeRuleType
+{
+    FixedAmount,
+    Percentage
 }

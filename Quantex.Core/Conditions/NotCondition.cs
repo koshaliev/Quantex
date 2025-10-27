@@ -9,7 +9,6 @@ public sealed class NotCondition : ICondition
     [JsonIgnore]
     public List<string> RequiredKeys => Condition.RequiredKeys;
 
-    [JsonConstructor]
     public NotCondition(ICondition condition)
     {
         Condition = condition ?? throw new ArgumentNullException(nameof(condition));

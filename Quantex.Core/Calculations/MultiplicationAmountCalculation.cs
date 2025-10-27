@@ -2,7 +2,7 @@
 
 namespace Quantex.Core.Calculations;
 
-public sealed class MultiplyAmountCalculation : ICalculationMethod
+public sealed class MultiplicationAmountCalculation : ICalculationMethod
 {
     public string Key { get; init; }
     public decimal Multiplier { get; init; }
@@ -10,8 +10,7 @@ public sealed class MultiplyAmountCalculation : ICalculationMethod
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    [JsonConstructor]
-    public MultiplyAmountCalculation(string key, decimal multiplier)
+    public MultiplicationAmountCalculation(string key, decimal multiplier)
     {
         Key = key;
         Multiplier = multiplier;
@@ -19,7 +18,8 @@ public sealed class MultiplyAmountCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-            throw new ArgumentException($"Key '{Key}' not found or is not a decimal in the context.");
+            throw new ArgumentException($"Invalid context for {nameof(MultiplicationAmountCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
+
 
         return decimalValue * Multiplier;
     }

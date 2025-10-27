@@ -4,12 +4,12 @@ namespace Quantex.Core.Conditions;
 
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "$conditionType")]
-[JsonDerivedType(typeof(EqualsNumberCondition), "eqn")]
-[JsonDerivedType(typeof(EqualsStringCondition), "eqs")]
-[JsonDerivedType(typeof(GreaterThanCondition), "gt")]
-[JsonDerivedType(typeof(LessThanCondition), "lt")]
-[JsonDerivedType(typeof(GreaterThanOrEqualCondition), "gte")]
-[JsonDerivedType(typeof(LessThanOrEqualCondition), "lte")]
+[JsonDerivedType(typeof(EqualsNumberCondition), "==n")]
+[JsonDerivedType(typeof(EqualsStringCondition), "==s")]
+[JsonDerivedType(typeof(GreaterThanCondition), ">")]
+[JsonDerivedType(typeof(LessThanCondition), "<")]
+[JsonDerivedType(typeof(GreaterThanOrEqualCondition), ">=")]
+[JsonDerivedType(typeof(LessThanOrEqualCondition), "<=")]
 [JsonDerivedType(typeof(AndCondition), "and")]
 [JsonDerivedType(typeof(OrCondition), "or")]
 [JsonDerivedType(typeof(NotCondition), "not")]

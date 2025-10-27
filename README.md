@@ -59,9 +59,9 @@
 - [ClampedCalculation](./Quantex.Core/Calculations/ClampedCalculation.cs) - ограничивает результат вычисления заданными минимальным и максимальным значениями.
 - [TernaryCalculation](./Quantex.Core/Calculations/TernaryCalculation.cs) - выбирает одно из двух вычислений в зависимости от условия.
 - [AdditionAmountCalculation](./Quantex.Core/Calculations/AdditionAmountCalculation.cs) - прибавляет фиксированное значение к значению из контекста и возвращает результат, не изменяя контекст.
-- [MultiplyAmountCalculation](./Quantex.Core/Calculations/MultiplyAmountCalculation.cs) - умножает значение из контекста на фиксированное число и возвращает результат, не изменяя контекст.
-- [WithAddedContextValueCalculation](./Quantex.Core/Calculations/WithAddedContextValueCalculation.cs) - временно добавляет к значению из контекста фиксированное число перед вычислением и после завершения возвращает исходное значение.
-- [WithMultipliedContextValueCalculation](./Quantex.Core/Calculations/WithMultipliedContextValueCalculation.cs) - временно умножает значение из контекста на фиксированный коэффициент перед вычислением и затем восстанавливает исходное значение.
+- [MultiplicationAmountCalculation](./Quantex.Core/Calculations/MultiplicationAmountCalculation.cs) - умножает значение из контекста на фиксированное число и возвращает результат, не изменяя контекст.
+- [ContextValueAdditionCalculation](./Quantex.Core/Calculations/ContextValueAdditionCalculation.cs) - временно добавляет к значению из контекста фиксированное число перед вычислением и после завершения возвращает исходное значение.
+- [ContextValueMultiplicationCalculation](./Quantex.Core/Calculations/ContextValueMultiplicationCalculation.cs) - временно умножает значение из контекста на фиксированный коэффициент перед вычислением и затем восстанавливает исходное значение.
 
 ---
 
@@ -80,11 +80,15 @@
 Несмотря на большое количество различных методов вычисления и условий, все реализации поддерживают сериализацию и десериализацию.  
 Это позволяет вручную описывать схемы и правила расчёта в JSON.
 
-Например, данная схема:
+
+### Пример
+
+Данная схема:
 ```csharp
 var deliveryExpense = new ExpenseUnit(
     name: "Delivery",
     displayName: "Доставка",
+    condition: new GreaterThanOrEqualCondition("price", 1000),
     calculationMethod: new TernaryCalculation(
         new LessThanOrEqualCondition("price", 300),
         ifTrue: new StepRangeCalculation(
@@ -101,7 +105,7 @@ var deliveryExpense = new ExpenseUnit(
                 new UniversalStepRangeRule(3, 190,
                     new SumAmountCalculation([
                             new FixedAmountCalculation(116),
-                            new WithAddedContextValueCalculation("volume", -3, new MultiplyAmountCalculation("volume", 23))
+                            new ContextValueAdditionCalculation("volume", -3, new MultiplicationAmountCalculation("volume", 23))
                         ])
                     ),
                 new UniversalStepRangeRule(190, decimal.MaxValue, new FixedAmountCalculation(5000)),
@@ -114,7 +118,7 @@ var profile = new ExpenseProfile(
     name: "Default",
     displayName: "Профиль Бытовая техника",
     condition: new EqualsStringCondition("product_type", "Бытовая техника"),
-    groups: [deliveryExpenseGroup]);
+    expenseGroups: [deliveryExpenseGroup]);
 ```
 
 сериализуется в:
@@ -125,9 +129,9 @@ var profile = new ExpenseProfile(
   "DisplayName": "Профиль Бытовая техника",
   "Description": null,
   "Condition": {
-    "$conditionType": "eqs",
+    "$conditionType": "==s",
     "Key": "product_type",
-    "ExpectedValue": "Бытовая техника"
+    "Expected": "Бытовая техника"
   },
   "ExpenseGroups": [
     {
@@ -140,11 +144,15 @@ var profile = new ExpenseProfile(
           "Name": "Delivery",
           "DisplayName": "Доставка",
           "Description": null,
-          "Condition": null,
+          "Condition": {
+            "$conditionType": ">=",
+            "Key": "price",
+            "Value": 1000
+          },
           "CalculationMethod": {
-            "$calculationType": "ternary",
+            "$calculationType": "?",
             "Condition": {
-              "$conditionType": "lte",
+              "$conditionType": "<=",
               "Key": "price",
               "Value": 300
             },
@@ -195,7 +203,7 @@ var profile = new ExpenseProfile(
                         "Amount": 116
                       },
                       {
-                        "$calculationType": "with-added",
+                        "$calculationType": "ctx:+",
                         "Key": "volume",
                         "Amount": -3,
                         "Calculation": {
@@ -219,7 +227,7 @@ var profile = new ExpenseProfile(
             }
           },
           "IsActive": true,
-          "ValidFrom": "2025-10-25T00:00:01.0000000+00:00",
+          "ValidFrom": "2025-10-26T00:00:01.0000000+00:00",
           "ValidTo": null
         }
       ]

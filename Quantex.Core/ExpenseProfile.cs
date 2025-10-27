@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Quantex.Core.Conditions;
-using Quantex.Core.Domain.Calculations;
 
 namespace Quantex.Core;
 
@@ -12,44 +11,54 @@ namespace Quantex.Core;
 /// </summary>
 public class ExpenseProfile
 {
+    [JsonIgnore]
+    private HashSet<string>? _requiredKeys;
+
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
     public ICondition Condition { get; set; }
-    public List<ExpenseGroup> ExpenseGroups { get; }
+    public List<ExpenseGroup> ExpenseGroups { get; } = [];
 
     [JsonIgnore]
-    public HashSet<string> RequiredKeys { get; } = [];
+    public HashSet<string> RequiredKeys
+    {
+        get
+        {
+            if (_requiredKeys is null)
+            {
+                _requiredKeys = new HashSet<string>();
 
-#nullable disable
-    [JsonConstructor]
-    public ExpenseProfile() { }
-#nullable enable
+                for (int i = 0; i < Condition.RequiredKeys.Count; i++)
+                {
+                    _requiredKeys.Add(Condition.RequiredKeys[i]);
+                }
 
-    public ExpenseProfile(string name, string displayName, ICondition condition, List<ExpenseGroup> groups, string? description = null)
+                for (int i = 0; i < ExpenseGroups.Count; i++)
+                {
+                    for (int j = 0; j < ExpenseGroups[i].RequiredKeys.Count; j++)
+                    {
+                        _requiredKeys.Add(ExpenseGroups[i].RequiredKeys[j]);
+                    }
+                }
+            }
+
+            return _requiredKeys;
+
+        }
+    }
+
+    public ExpenseProfile(string name, string displayName, ICondition condition, List<ExpenseGroup> expenseGroups, string? description = null)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
         Description = description;
         Condition = condition ?? throw new ArgumentNullException(nameof(condition));
 
-        ArgumentNullException.ThrowIfNull(groups);
-        if (groups.Count == 0)
-            throw new ArgumentException("At least one expense group must be provided.", nameof(groups));
-        ExpenseGroups = groups;
-
-        for (int i = 0; i < Condition.RequiredKeys.Count; i++)
-        {
-            RequiredKeys.Add(Condition.RequiredKeys[i]);
-        }
-
-        for (int i = 0; i < ExpenseGroups.Count; i++)
-        {
-            for (int j = 0; j < ExpenseGroups[i].RequiredKeys.Count; j++)
-            {
-                RequiredKeys.Add(ExpenseGroups[i].RequiredKeys[j]);
-            }
-        }
+        ArgumentNullException.ThrowIfNull(expenseGroups);
+        if (expenseGroups.Count == 0)
+            throw new ArgumentException("At least one expense group must be provided.", nameof(expenseGroups));
+        ExpenseGroups = expenseGroups;
     }
 
     public bool TryCalculate(Dictionary<string, object> context, [NotNullWhen(true)] out Dictionary<string, Dictionary<string, decimal>>? totalExpenses)

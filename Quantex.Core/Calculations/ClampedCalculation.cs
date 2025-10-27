@@ -4,14 +4,13 @@ namespace Quantex.Core.Calculations;
 
 public sealed class ClampedCalculation : ICalculationMethod
 {
-    public ICalculationMethod Calculation { get; }
-    public decimal? MinAmount { get; }
-    public decimal? MaxAmount { get; }
+    public ICalculationMethod Calculation { get; init; }
+    public decimal? MinAmount { get; init; }
+    public decimal? MaxAmount { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => Calculation.RequiredKeys;
 
-    [JsonConstructor]
     public ClampedCalculation(ICalculationMethod calculation, decimal? minAmount = null, decimal? maxAmount = null)
     {
         Calculation = calculation ?? throw new ArgumentNullException(nameof(calculation));

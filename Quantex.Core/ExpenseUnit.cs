@@ -11,6 +11,9 @@ namespace Quantex.Core;
 /// </summary>
 public class ExpenseUnit
 {
+    [JsonIgnore]
+    private List<string>? _requiredKeys;
+
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
@@ -23,9 +26,30 @@ public class ExpenseUnit
     public DateTimeOffset? ValidTo { get; set; }
 
     [JsonIgnore]
-    public List<string> RequiredKeys { get; } = [];
+    public List<string> RequiredKeys
+    {
+        get
+        {
+            if (_requiredKeys is null)
+            {
+                _requiredKeys = [];
+                if (Condition is not null)
+                {
+                    for (int i = 0; i < Condition.RequiredKeys.Count; i++)
+                    {
+                        _requiredKeys.Add(Condition.RequiredKeys[i]);
+                    }
+                }
 
-    [JsonConstructor]
+                for (int i = 0; i < CalculationMethod.RequiredKeys.Count; i++)
+                {
+                    _requiredKeys.Add(CalculationMethod.RequiredKeys[i]);
+                }
+            }
+            return _requiredKeys;
+
+        }
+    }
     public ExpenseUnit(string name, string displayName, ICalculationMethod calculationMethod, DateTimeOffset validFrom, DateTimeOffset? validTo = null, ICondition? condition = null, string? description = null, bool isActive = true)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);

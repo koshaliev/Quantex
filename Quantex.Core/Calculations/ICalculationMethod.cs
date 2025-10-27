@@ -13,11 +13,11 @@ namespace Quantex.Core.Calculations;
 [JsonDerivedType(typeof(MaxAmountCalculation), "max")]
 [JsonDerivedType(typeof(MinAmountCalculation), "min")]
 [JsonDerivedType(typeof(ClampedCalculation), "clamped")]
-[JsonDerivedType(typeof(TernaryCalculation), "ternary")]
+[JsonDerivedType(typeof(TernaryCalculation), "?")]
 [JsonDerivedType(typeof(AdditionAmountCalculation), "+")]
-[JsonDerivedType(typeof(MultiplyAmountCalculation), "*")]
-[JsonDerivedType(typeof(WithAddedContextValueCalculation), "with-added")]
-[JsonDerivedType(typeof(WithMultipliedContextValueCalculation), "with-multiplied")]
+[JsonDerivedType(typeof(MultiplicationAmountCalculation), "*")]
+[JsonDerivedType(typeof(ContextValueAdditionCalculation), "ctx:+")]
+[JsonDerivedType(typeof(ContextValueMultiplicationCalculation), "ctx:*")]
 [JsonDerivedType(typeof(UniversalStepRangeCalculation), "universal-step")]
 public interface ICalculationMethod
 {

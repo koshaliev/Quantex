@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Quantex.Core.Calculations.Enums;
 
 namespace Quantex.Core.Calculations;
 
@@ -11,7 +10,6 @@ public sealed class TieredRangeCalculation : ICalculationMethod
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    [JsonConstructor]
     public TieredRangeCalculation(string key, List<TieredRangeRule> ranges)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
@@ -24,7 +22,7 @@ public sealed class TieredRangeCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-            throw new ArgumentException($"Invalid context for {nameof(TieredRangeCalculation)}. Key \"{Key}\" not found or Value is not decimal");
+            throw new ArgumentException($"Invalid context for {nameof(TieredRangeCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
         decimal totalCost = 0;
         for (int i = 0; i < Ranges.Count; i++)
@@ -32,7 +30,6 @@ public sealed class TieredRangeCalculation : ICalculationMethod
             if (Ranges[i].TryGetCost(decimalValue, out var cost))
                 totalCost += cost;
         }
-
         return totalCost;
     }
 
@@ -91,4 +88,11 @@ public class TieredRangeRule
     }
 
     public override string ToString() => $"[{From}..{To}) @ {Type}: {Value}{(Type == TieredRangeType.Percentage ? " %" : string.Empty)}";
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter<TieredRangeType>))]
+public enum TieredRangeType
+{
+    Percentage,
+    FixedAmount
 }

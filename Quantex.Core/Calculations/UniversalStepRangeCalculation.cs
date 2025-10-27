@@ -4,16 +4,32 @@ namespace Quantex.Core.Calculations;
 
 public sealed class UniversalStepRangeCalculation : ICalculationMethod
 {
-    public string Key { get; init; }
-    public IReadOnlyList<UniversalStepRangeRule> Ranges { get; set; }
+    [JsonIgnore]
+    private List<string>? _requiredKeys;
+
+    public string Key { get; set; }
+    public List<UniversalStepRangeRule> Ranges { get; }
 
     [JsonIgnore]
-    public List<string> RequiredKeys => [Key];
+    public List<string> RequiredKeys
+    {
+        get
+        {
+            if (_requiredKeys is null)
+            {
+                _requiredKeys = [];
+                for (int i = 0; i < Ranges.Count; i++)
+                {
+                    for (int j = 0; j < Ranges[i].Calculation.RequiredKeys.Count; j++)
+                    {
+                        _requiredKeys.Add(Ranges[i].Calculation.RequiredKeys[j]);
+                    }
+                }
+            }
 
-#nullable disable
-    [JsonConstructor]
-    public UniversalStepRangeCalculation() { }
-#nullable enable
+            return _requiredKeys;
+        }
+    }
 
     public UniversalStepRangeCalculation(string key, List<UniversalStepRangeRule> ranges)
     {
@@ -25,14 +41,13 @@ public sealed class UniversalStepRangeCalculation : ICalculationMethod
     public decimal Calculate(Dictionary<string, object> context)
     {
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
-            throw new ArgumentException($"Invalid context for {nameof(UniversalStepRangeCalculation)}. Key \"{Key}\" not found or Value is not decimal");
+            throw new ArgumentException($"Invalid context for {nameof(UniversalStepRangeCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
         for (int i = 0; i < Ranges.Count; i++)
         {
             if (IsInRange(Ranges[i], decimalValue))
                 return Ranges[i].GetCost(context);
         }
-
         throw new ArgumentException($"No range found for value {decimalValue}");
     }
 

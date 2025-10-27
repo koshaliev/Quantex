@@ -11,6 +11,9 @@ namespace Quantex.Core;
 /// </summary>
 public class ExpenseProfile
 {
+    [JsonIgnore]
+    private HashSet<string>? _requiredKeys;
+
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
@@ -18,7 +21,32 @@ public class ExpenseProfile
     public List<ExpenseGroup> Groups { get; } = [];
 
     [JsonIgnore]
-    public HashSet<string> RequiredKeys => [];
+    public HashSet<string> RequiredKeys
+    {
+        get
+        {
+            if (_requiredKeys is null)
+            {
+                _requiredKeys = new HashSet<string>();
+
+                for (int i = 0; i < Condition.RequiredKeys.Count; i++)
+                {
+                    _requiredKeys.Add(Condition.RequiredKeys[i]);
+                }
+
+                for (int i = 0; i < Groups.Count; i++)
+                {
+                    for (int j = 0; j < Groups[i].RequiredKeys.Count; j++)
+                    {
+                        _requiredKeys.Add(Groups[i].RequiredKeys[j]);
+                    }
+                }
+            }
+
+            return _requiredKeys;
+
+        }
+    }
 
     public ExpenseProfile(string name, string displayName, ICondition condition, List<ExpenseGroup> groups, string? description = null)
     {
@@ -31,15 +59,6 @@ public class ExpenseProfile
         if (groups.Count == 0)
             throw new ArgumentException("At least one expense group must be provided.", nameof(groups));
         Groups = groups;
-
-        for (int i = 0; i < Condition.RequiredKeys.Count; i++)
-            RequiredKeys.Add(Condition.RequiredKeys[i]);
-
-        for (int i = 0; i < Groups.Count; i++)
-        {
-            for (int j = 0; j < Groups[i].RequiredKeys.Count; j++)
-                RequiredKeys.Add(Groups[i].RequiredKeys[j]);
-        }
     }
 
     public bool TryCalculate(Dictionary<string, object> context, [NotNullWhen(true)] out Dictionary<string, Dictionary<string, decimal>>? totalExpenses)

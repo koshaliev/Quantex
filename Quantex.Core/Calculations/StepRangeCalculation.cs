@@ -9,7 +9,7 @@ namespace Quantex.Core.Calculations;
 public sealed class StepRangeCalculation : ICalculationMethod
 {
     public string Key { get; init; }
-    public IReadOnlyList<StepRangeRule> Ranges { get; init; }
+    public List<StepRangeRule> Ranges { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];

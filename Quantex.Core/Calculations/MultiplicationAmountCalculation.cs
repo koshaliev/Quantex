@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который умножает значение из контекста на фиксированное число и возвращает итоговый результат.
+/// </summary>
 public sealed class MultiplicationAmountCalculation : ICalculationMethod
 {
     public string Key { get; init; }

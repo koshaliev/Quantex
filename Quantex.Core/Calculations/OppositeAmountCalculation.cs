@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который возвращает противоположное по знаку значение, полученное в результате вложенного (подчиненного) вычисления.
+/// </summary>
 public sealed class OppositeAmountCalculation : ICalculationMethod
 {
     public ICalculationMethod Calculation { get; init; }

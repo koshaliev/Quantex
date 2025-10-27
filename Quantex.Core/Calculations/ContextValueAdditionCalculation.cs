@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который временно добавляет фиксированное число к значению из контекста перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
+/// </summary>
 public sealed class ContextValueAdditionCalculation : ICalculationMethod
 {
     public string Key { get; init; }
@@ -16,11 +19,6 @@ public sealed class ContextValueAdditionCalculation : ICalculationMethod
         Key = key;
         Amount = amount;
         Calculation = calculation ?? throw new ArgumentNullException(nameof(calculation));
-
-        for (int i = 0; i < Calculation.RequiredKeys.Count; i++)
-        {
-            RequiredKeys.Add(Calculation.RequiredKeys[i]);
-        }
     }
 
     public decimal Calculate(Dictionary<string, object> context)

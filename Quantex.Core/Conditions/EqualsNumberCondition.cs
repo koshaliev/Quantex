@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Conditions;
 
+/// <summary>
+/// Условие, которое проверяет, равно ли числовое значение в контексте заданному числу.
+/// </summary>
 public sealed class EqualsNumberCondition : ICondition
 {
     public string Key { get; init; }

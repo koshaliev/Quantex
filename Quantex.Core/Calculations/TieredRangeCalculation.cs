@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который вычисляет результат путём суммирования значений по соответствующим диапазонам (уровням).
+/// </summary>
 public sealed class TieredRangeCalculation : ICalculationMethod
 {
     public string Key { get; init; }
@@ -61,7 +64,6 @@ public class TieredRangeRule
     public decimal Value { get; init; }
     public TieredRangeType Type { get; init; }
 
-    [JsonConstructor]
     public TieredRangeRule(decimal from, decimal to, decimal value, TieredRangeType type)
     {
         From = from;

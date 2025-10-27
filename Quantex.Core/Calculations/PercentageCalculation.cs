@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который возвращает сумму, составляющую указанный процент от значения, содержащегося в контексте.
+/// </summary>
 public sealed class PercentageCalculation : ICalculationMethod
 {
     public string Key { get; init; }

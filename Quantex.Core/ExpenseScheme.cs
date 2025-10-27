@@ -27,8 +27,6 @@ public class ExpenseScheme
         Profiles = profiles;
 
         for (int i = 0; i < Profiles.Count; i++)
-        {
             RequiredKeysByProfileName[Profiles[i].Name] = Profiles[i].RequiredKeys;
-        }
     }
 }

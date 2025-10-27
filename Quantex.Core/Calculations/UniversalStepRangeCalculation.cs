@@ -2,39 +2,28 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который выбирает вложенное вычисление, соответствующее шаговому диапазону на основе входных данных, и выполняет его, возвращая полученный результат.
+/// </summary>
 public sealed class UniversalStepRangeCalculation : ICalculationMethod
 {
-    [JsonIgnore]
-    private List<string>? _requiredKeys;
-
     public string Key { get; set; }
-    public List<UniversalStepRangeRule> Ranges { get; }
+    public IReadOnlyList<UniversalStepRangeRule> Ranges { get; }
 
     [JsonIgnore]
-    public List<string> RequiredKeys
-    {
-        get
-        {
-            if (_requiredKeys is null)
-            {
-                _requiredKeys = [];
-                for (int i = 0; i < Ranges.Count; i++)
-                {
-                    for (int j = 0; j < Ranges[i].Calculation.RequiredKeys.Count; j++)
-                    {
-                        _requiredKeys.Add(Ranges[i].Calculation.RequiredKeys[j]);
-                    }
-                }
-            }
-
-            return _requiredKeys;
-        }
-    }
+    public List<string> RequiredKeys => [Key];
 
     public UniversalStepRangeCalculation(string key, List<UniversalStepRangeRule> ranges)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));
         Ranges = ranges ?? throw new ArgumentNullException(nameof(ranges));
+        for (int i = 0; i < Ranges.Count; i++)
+        {
+            ArgumentNullException.ThrowIfNull(Ranges[i]);
+
+            for (int j = 0; j < Ranges[i].Calculation.RequiredKeys.Count; j++)
+                RequiredKeys.Add(Ranges[i].Calculation.RequiredKeys[j]);
+        }
         ValidateAndSort(ranges);
     }
 
@@ -79,11 +68,6 @@ public sealed class UniversalStepRangeRule
     public decimal From { get; init; }
     public decimal To { get; init; }
     public ICalculationMethod Calculation { get; init; }
-
-#nullable disable
-    [JsonConstructor]
-    public UniversalStepRangeRule() { }
-#nullable enable
 
     public UniversalStepRangeRule(decimal from, decimal to, ICalculationMethod calculation)
     {

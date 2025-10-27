@@ -2,6 +2,9 @@
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который ограничивает результат вложенного вычисления заданными минимальным и максимальным значениями
+/// </summary>
 public sealed class ClampedCalculation : ICalculationMethod
 {
     public ICalculationMethod Calculation { get; init; }

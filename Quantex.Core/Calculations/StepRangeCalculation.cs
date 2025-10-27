@@ -3,10 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace Quantex.Core.Calculations;
 
+/// <summary>
+/// Метод, который выбирает значение из шагового диапазона на основе входного значения.
+/// </summary>
 public sealed class StepRangeCalculation : ICalculationMethod
 {
     public string Key { get; init; }
-    public List<StepRangeRule> Ranges { get; init; }
+    public IReadOnlyList<StepRangeRule> Ranges { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
@@ -58,7 +61,6 @@ public sealed class StepRangeRule
     public decimal Value { get; init; }
     public StepRangeRuleType Type { get; init; }
 
-    [JsonConstructor]
     public StepRangeRule(decimal from, decimal to, decimal value, StepRangeRuleType type)
     {
         From = from;

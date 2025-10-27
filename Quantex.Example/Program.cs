@@ -39,7 +39,7 @@ var profile = new ExpenseProfile(
     name: "Default",
     displayName: "Профиль Бытовая техника",
     condition: new EqualsStringCondition("product_type", "Бытовая техника"),
-    expenseGroups: [deliveryExpenseGroup]);
+    groups: [deliveryExpenseGroup]);
 
 var jsonOptions = new JsonSerializerOptions
 {
@@ -58,7 +58,7 @@ Console.WriteLine($"Name: {deserializedProfile.Name}");
 Console.WriteLine($"Display name: {deserializedProfile.DisplayName}");
 Console.WriteLine($"Required keys: {string.Join(';', deserializedProfile.RequiredKeys)}");
 
-foreach (var group in deserializedProfile.ExpenseGroups)
+foreach (var group in deserializedProfile.Groups)
 {
     Console.WriteLine($"  Group name: {group.Name}");
     foreach (var expense in group.Expenses)

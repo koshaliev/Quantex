@@ -64,6 +64,7 @@
 - [ContextValueAdditionCalculation](./Quantex.Core/Calculations/ContextValueAdditionCalculation.cs) - Временно добавляет фиксированное число к значению из контекста перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 - [ContextValueMultiplicationCalculation](./Quantex.Core/Calculations/ContextValueMultiplicationCalculation.cs) - Временно умножает значение из контекста на фиксированное число перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 - [UniversalStepRangeCalculation](./Quantex.Core/Calculations/UniversalStepRangeCalculation.cs) - Выбирает вложенное вычисление, соответствующее шаговому диапазону на основе входных данных, и выполняет его, возвращая полученный результат.
+- [OnlyContextValueCalculation](./Quantex.Core/Calculations/OnlyContextValueCalculation.cs) - Возвращает значение из контекста.
 
 ---
 

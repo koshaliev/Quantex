@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using System.Runtime.Serialization;
+using Newtonsoft.Json.Linq;
 using Quantex.Core.Calculations;
 
 namespace Quantext.Core.Tests;
@@ -103,11 +103,11 @@ public class CalculationMethodTests
     [InlineData(3d)]
     [InlineData(false)]
     [InlineData(typeof(object))]
-    public void PercentageCalculation_Calculate_ThrowsArgumentExceptionIfContextValueIsNotDecimal(object value)
+    public void PercentageCalculation_Calculate_ThrowsArgumentExceptionIfContextValueIsNotDecimal(object? value)
     {
         string key = "key";
         decimal percentage = 12.5m;
-        var ctx = new Dictionary<string, object> { { key, value } };
+        var ctx = new Dictionary<string, object> { { key, value! } };
         var calc = new PercentageCalculation(key, percentage);
 
         var action = () => { calc.Calculate(ctx); };
@@ -260,7 +260,7 @@ public class CalculationMethodTests
 
     [Fact]
     [Trait("Class", nameof(StepRangeRule))]
-    public void StepRangeRule_TryGetCost_ThrowNotSupportExceptionIfEnumNotDefined()
+    public void StepRangeRule_TryGetCost_ThrowsNotSupportExceptionIfEnumNotDefined()
     {
         var amount = 2m;
         var from = 0m;
@@ -302,7 +302,7 @@ public class CalculationMethodTests
 
     [Fact]
     [Trait("Class", nameof(StepRangeCalculation))]
-    public void StepRangeCalculation_Constructor_ThrowsNullArgumentNullExceptionIfKeyIsNull()
+    public void StepRangeCalculation_Constructor_ThrowsArgumentNullExceptionIfKeyIsNull()
     {
         string? key = null;
         List<StepRangeRule> ranges = [
@@ -316,7 +316,7 @@ public class CalculationMethodTests
 
     [Fact]
     [Trait("Class", nameof(StepRangeCalculation))]
-    public void StepRangeCalculation_Constructor_ThrowsNullArgumentNullExceptionIfRangesIsNull()
+    public void StepRangeCalculation_Constructor_ThrowsArgumentNullExceptionIfRangesIsNull()
     {
         string key = "key";
         List<StepRangeRule>? ranges = null;
@@ -328,7 +328,24 @@ public class CalculationMethodTests
 
     [Fact]
     [Trait("Class", nameof(StepRangeCalculation))]
-    public void StepRangeCalculation_Constructor_ThrowsNullArgumentExceptionIfRangesOverlapping()
+    public void StepRangeCalculation_Constructor_ThrowsArgumentExceptionIfRangesIsEmpty()
+    {
+        string key = "key";
+        List<StepRangeRule> ranges = [];
+
+        var action = () => { new StepRangeCalculation(key, ranges); };
+
+        Assert.Throws<ArgumentException>(action, x =>
+        {
+            if (x.Message.Contains("cannot be empty"))
+                return null;
+            return $"thrown out invalid exception. Message: {x.Message}";
+        });
+    }
+
+    [Fact]
+    [Trait("Class", nameof(StepRangeCalculation))]
+    public void StepRangeCalculation_Constructor_ThrowsArgumentExceptionIfRangesOverlapping()
     {
         string key = "key";
         List<StepRangeRule> ranges = [
@@ -339,7 +356,31 @@ public class CalculationMethodTests
 
         var action = () => { new StepRangeCalculation(key, ranges); };
 
-        Assert.Throws<ArgumentException>(action);
+        Assert.Throws<ArgumentException>(action, x =>
+        {
+            if (x.Message.Contains("Ranges must be continuous and non-overlapping."))
+                return null;
+            return $"thrown out invalid exception. Message: {x.Message}";
+        });
+    }
+
+    [Fact]
+    [Trait("Class", nameof(StepRangeCalculation))]
+    public void StepRangeCalculation_Constructor_ThrowsArgumentExceptionIfRangeHasInvalidBorder()
+    {
+        string key = "key";
+        List<StepRangeRule> ranges = [
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(10, 6, 20, StepRangeRuleType.Fixed)];
+
+        var action = () => { new StepRangeCalculation(key, ranges); };
+
+        Assert.Throws<ArgumentException>(action, x =>
+        {
+            if (x.Message.Contains("must be less than To "))
+                return null;
+            return $"thrown out invalid exception. Message: {x.Message}";
+        });
     }
 
     [Fact]
@@ -358,5 +399,78 @@ public class CalculationMethodTests
         var actual = calc.Calculate(ctx);
 
         Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    [Trait("Class", nameof(StepRangeCalculation))]
+    public void StepRangeCalculation_Calculate_ThrowsArgumentExceptionIfContextValueNotFound()
+    {
+        var key = "key";
+        var ctx = new Dictionary<string, object>();
+        List<StepRangeRule> ranges = [
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(5, 10, 20, StepRangeRuleType.Fixed)];
+        var calc = new StepRangeCalculation(key, ranges);
+
+        var action = () => { calc.Calculate(ctx); };
+
+        Assert.Throws<ArgumentException>(action);
+    }
+
+    [Theory]
+    [Trait("Class", nameof(StepRangeCalculation))]
+    [InlineData(null)]
+    [InlineData("string")]
+    [InlineData(1.000001f)]
+    [InlineData(2)]
+    [InlineData(3d)]
+    [InlineData(false)]
+    [InlineData(typeof(object))]
+    public void StepRangeCalculation_Calculate_ThrowsArgumentExceptionIfContextValueIsNotDecimal(object? value)
+    {
+        string key = "key";
+        var ctx = new Dictionary<string, object> { { key, value! } };
+        List<StepRangeRule> ranges = [
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(5, 10, 20, StepRangeRuleType.Fixed)];
+        var calc = new StepRangeCalculation(key, ranges);
+
+        var action = () => { calc.Calculate(ctx); };
+
+        Assert.Throws<ArgumentException>(action, x =>
+        {
+            if (x.Message.Contains("not found or Value is not decimal in context."))
+                return null;
+            return $"thrown out invalid exception. Message: {x.Message}";
+        });
+    }
+
+    [Fact]
+    [Trait("Class", nameof(StepRangeCalculation))]
+    public void StepRangeCalculation_Calculate_ThrowsArgumentExceptionIfContextValueNotInRange()
+    {
+        var leftBorder = -0.1m;
+        var rightBorder = 10.1m;
+        string key = "key";
+        List<StepRangeRule> ranges = [
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(5, 10, 20, StepRangeRuleType.Fixed)];
+        var calc = new StepRangeCalculation(key, ranges);
+
+        var leftBorderAction = () => { calc.Calculate(new Dictionary<string, object> { { key, leftBorder } }); };
+        var rightBorderAction = () => { calc.Calculate(new Dictionary<string, object> { { key, rightBorder } }); };
+
+        Assert.Throws<ArgumentException>(leftBorderAction, x =>
+        {
+            if (x.Message.Contains("No range found for value"))
+                return null;
+            return $"thrown out invalid exception. Message: {x.Message}";
+        });
+        Assert.Throws<ArgumentException>(rightBorderAction, x =>
+        {
+            if (x.Message.Contains("No range found for value"))
+                return null;
+            return $"thrown out invalid exception. Message: {x.Message}";
+        });
     }
 }

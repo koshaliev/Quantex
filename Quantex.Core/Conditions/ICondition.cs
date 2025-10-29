@@ -5,7 +5,9 @@ namespace Quantex.Core.Conditions;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "$conditionType")]
 [JsonDerivedType(typeof(EqualsNumberCondition), "==n")]
+[JsonDerivedType(typeof(NotEqualsNumberCondition), "!=n")]
 [JsonDerivedType(typeof(EqualsStringCondition), "==s")]
+[JsonDerivedType(typeof(NotEqualsStringCondition), "!=s")]
 [JsonDerivedType(typeof(GreaterThanCondition), ">")]
 [JsonDerivedType(typeof(LessThanCondition), "<")]
 [JsonDerivedType(typeof(GreaterThanOrEqualCondition), ">=")]

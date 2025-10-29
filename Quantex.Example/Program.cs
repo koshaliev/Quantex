@@ -4,8 +4,6 @@ using Quantex.Core;
 using Quantex.Core.Calculations;
 using Quantex.Core.Conditions;
 
-Console.WriteLine("Hello, Quantex!");
-
 // -------------------------------
 // SALE_GROUP
 var saleCommissionExpense = new ExpenseUnit(
@@ -71,7 +69,7 @@ var lastMileExpense = new ExpenseUnit(
     calculationMethod: new ClampedCalculation(new PercentageCalculation("price", 5.5m), 30, 500),
     validFrom: DateTimeOffset.MinValue,
     validTo: null,
-    condition: new NotCondition(new EqualsStringCondition("destination_city", "Moscow")),
+    condition: new NotEqualsStringCondition("destination_city", "Moscow"),
     description: "Доставка товара до конечного покупателя в городе назначения",
     isActive: true);
 
@@ -136,6 +134,7 @@ var productPurchaseGroup = new ExpenseGroup(
     expenses: [productPurchaseExpense]);
 
 
+// -------------------------------
 var profile = new ExpenseProfile(
     name: "Default",
     displayName: "Профиль Электроника",
@@ -157,13 +156,13 @@ var deserializedProfile = JsonSerializer.Deserialize<ExpenseProfile>(jsonProfile
 
 Console.WriteLine($"Name: {deserializedProfile.Name}");
 Console.WriteLine($"Display name: {deserializedProfile.DisplayName}");
-Console.WriteLine($"Required keys: {string.Join(';', deserializedProfile.RequiredKeys)}");
+Console.WriteLine($"Required keys: {string.Join(", ", deserializedProfile.RequiredKeys)}");
 
 Console.WriteLine("\n------------------------------\n");
 var ctx = new Dictionary<string, object> 
 {
     { "sale_scheme", "FBS" },
-    { "destination_city", "Moscow" },
+    { "destination_city", "New York" },
     { "price", 35000m }, 
     { "volume", 162m }, 
     { "product_category", "Электроника" }, 

@@ -1,7 +1,7 @@
 ﻿namespace Quantex.Core.Calculations;
 
 /// <summary>
-/// Метод, возвращающий значение из контекста.
+/// Метод, который возвращает значение из контекста.
 /// </summary>
 public sealed class OnlyContextValueCalculation : ICalculationMethod
 {

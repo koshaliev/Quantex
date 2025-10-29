@@ -70,7 +70,9 @@
 
 #### Условия (реализации интерфейса `ICondition`)
 - [EqualsNumberCondition](./Quantex.Core/Conditions/EqualsNumberCondition.cs) - Проверяет, равно ли числовое значение в контексте заданному числу.
+- [NotEqualsNumberCondition](./Quantex.Core/Conditions/NotEqualsNumberCondition.cs) - Проверяет, не равно ли числовое значение в контексте заданному числу.
 - [EqualsStringCondition](./Quantex.Core/Conditions/EqualsStringCondition.cs) - Проверяет, совпадает ли строковое значение в контексте с заданной строкой.
+- [NotEqualsStringCondition](./Quantex.Core/Conditions/NotEqualsStringCondition.cs) - Проверяет, не совпадает ли строковое значение в контексте с заданной строкой.
 - [GreaterThanCondition](./Quantex.Core/Conditions/GreaterThanCondition.cs) - Возвращает true, если числовое значение в контексте больше указанного порога.
 - [GreaterThanOrEqualCondition](./Quantex.Core/Conditions/GreaterThanOrEqualCondition.cs) - Возвращает true, если числовое значение в контексте больше или равно заданному порогу.
 - [LessThanCondition](./Quantex.Core/Conditions/LessThanCondition.cs) - Возвращает true, если числовое значение в контексте меньше указанного порога.

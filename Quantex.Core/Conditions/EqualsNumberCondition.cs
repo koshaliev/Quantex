@@ -8,16 +8,16 @@ namespace Quantex.Core.Conditions;
 public sealed class EqualsNumberCondition : ICondition
 {
     public string Key { get; init; }
-    public decimal Expected { get; init; }
+    public decimal Value { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    public EqualsNumberCondition(string key, decimal expected)
+    public EqualsNumberCondition(string key, decimal value)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));
-        Expected = expected;
+        Value = value;
     }
 
-    public bool IsSatisfied(Dictionary<string, object> context) => context.TryGetValue(Key, out var value) && value is decimal dValue && dValue == Expected;
+    public bool IsSatisfied(Dictionary<string, object> context) => context.TryGetValue(Key, out var value) && value is decimal dValue && dValue == Value;
 }

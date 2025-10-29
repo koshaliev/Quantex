@@ -8,15 +8,15 @@ namespace Quantex.Core.Calculations;
 public sealed class PercentageCalculation : ICalculationMethod
 {
     public string Key { get; init; }
-    public decimal Percentage { get; init; }
+    public decimal Value { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
-    public PercentageCalculation(string key, decimal percentage)
+    public PercentageCalculation(string key, decimal value)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));
-        Percentage = percentage;
+        Value = value;
     }
 
     public decimal Calculate(Dictionary<string, object> context)
@@ -24,6 +24,6 @@ public sealed class PercentageCalculation : ICalculationMethod
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
             throw new ArgumentException($"Invalid context for {nameof(PercentageCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
-        return decimalValue / 100m * Percentage;
+        return decimalValue / 100m * Value;
     }
 }

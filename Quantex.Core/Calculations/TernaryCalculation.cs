@@ -8,12 +8,12 @@ namespace Quantex.Core.Calculations;
 /// </summary>
 public sealed class TernaryCalculation : ICalculationMethod
 {
-    [JsonIgnore]
-    private List<string>? _requiredKeys;
-
     public ICondition Condition { get; }
     public ICalculationMethod IfTrue { get; }
     public ICalculationMethod IfFalse { get; }
+
+    [JsonIgnore]
+    private List<string>? _requiredKeys;
 
     [JsonIgnore]
     public List<string> RequiredKeys

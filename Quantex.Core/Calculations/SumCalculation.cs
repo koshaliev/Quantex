@@ -5,12 +5,12 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который суммирует результаты, полученные от нескольких вложенных (подчиненных) вычислений.
 /// </summary>
-public sealed class SumAmountCalculation : ICalculationMethod
+public sealed class SumCalculation : ICalculationMethod
 {
+    public List<ICalculationMethod> Calculations { get; init; }
+
     [JsonIgnore]
     private List<string>? _requiredKeys;
-
-    public List<ICalculationMethod> Calculations { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys
@@ -30,7 +30,7 @@ public sealed class SumAmountCalculation : ICalculationMethod
         }
     }
 
-    public SumAmountCalculation(List<ICalculationMethod> calculations)
+    public SumCalculation(List<ICalculationMethod> calculations)
     {
         Calculations = calculations ?? throw new ArgumentNullException(nameof(calculations));
         if (Calculations.Count == 0)

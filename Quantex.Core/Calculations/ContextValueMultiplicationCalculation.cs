@@ -8,16 +8,16 @@ namespace Quantex.Core.Calculations;
 public sealed class ContextValueMultiplicationCalculation : ICalculationMethod
 {
     public string Key { get; init; }
-    public decimal Amount { get; init; }
+    public decimal Value { get; init; }
     public ICalculationMethod Calculation { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => Calculation.RequiredKeys;
 
-    public ContextValueMultiplicationCalculation(string key, decimal amount, ICalculationMethod calculation)
+    public ContextValueMultiplicationCalculation(string key, decimal value, ICalculationMethod calculation)
     {
         Key = key;
-        Amount = amount;
+        Value = value;
         Calculation = calculation ?? throw new ArgumentNullException(nameof(calculation));
     }
 
@@ -27,7 +27,7 @@ public sealed class ContextValueMultiplicationCalculation : ICalculationMethod
             throw new ArgumentException($"Invalid context for {nameof(ContextValueMultiplicationCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
         var originalValue = decimalValue;
-        context[Key] = decimalValue * Amount;
+        context[Key] = decimalValue * Value;
         var amount = Calculation.Calculate(context);
         context[Key] = originalValue;
 

@@ -81,7 +81,7 @@ public sealed class StepRangeRule
 
         cost = Type switch // TODO: may be strategy pattern again?
         {
-            StepRangeRuleType.FixedAmount => Value,
+            StepRangeRuleType.Fixed => Value,
             StepRangeRuleType.Percentage => amount / 100m * Value,
             _ => throw new NotSupportedException($"Unsupported StepRangeRuleType: {Type}")
         };
@@ -94,6 +94,6 @@ public sealed class StepRangeRule
 [JsonConverter(typeof(JsonStringEnumConverter<StepRangeRuleType>))]
 public enum StepRangeRuleType
 {
-    FixedAmount,
+    Fixed,
     Percentage
 }

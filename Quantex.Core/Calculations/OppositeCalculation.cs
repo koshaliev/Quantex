@@ -5,7 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает противоположное по знаку значение, полученное в результате вложенного (подчиненного) вычисления.
 /// </summary>
-public sealed class OppositeAmountCalculation : ICalculationMethod
+public sealed class OppositeCalculation : ICalculationMethod
 {
     public ICalculationMethod Calculation { get; init; }
 
@@ -13,7 +13,7 @@ public sealed class OppositeAmountCalculation : ICalculationMethod
     public List<string> RequiredKeys => Calculation.RequiredKeys;
 
     [JsonConstructor]
-    public OppositeAmountCalculation(ICalculationMethod calculation)
+    public OppositeCalculation(ICalculationMethod calculation)
     {
         Calculation = calculation ?? throw new ArgumentNullException(nameof(calculation));
     }

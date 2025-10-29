@@ -82,7 +82,7 @@ public class TieredRangeRule
 
         cost = Type switch
         {
-            TieredRangeType.FixedAmount => Value,
+            TieredRangeType.Fixed => Value,
             TieredRangeType.Percentage => (Math.Min(amount, To) - From) / 100m * Value,
             _ => throw new NotSupportedException($"Unsupported TieredRangeType: {Type}")
         };
@@ -95,6 +95,6 @@ public class TieredRangeRule
 [JsonConverter(typeof(JsonStringEnumConverter<TieredRangeType>))]
 public enum TieredRangeType
 {
-    Percentage,
-    FixedAmount
+    Fixed,
+    Percentage
 }

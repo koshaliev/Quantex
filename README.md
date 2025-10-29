@@ -49,18 +49,20 @@
 ---
 
 #### Методы вычисления (реализации интерфейса `ICalculationMethod`)
-- [FixedAmountCalculation](./Quantex.Core/Calculations/FixedAmountCalculation.cs) - Возвращает заданную фиксированную сумму.
+- [FixedCalculation](./Quantex.Core/Calculations/FixedCalculation.cs) - Возвращает заданную фиксированную сумму.
 - [PercentageCalculation](./Quantex.Core/Calculations/PercentageCalculation.cs) - Возвращает сумму, составляющую указанный процент от значения, содержащегося в контексте.
 - [StepRangeCalculation](./Quantex.Core/Calculations/StepRangeCalculation.cs) - Выбирает значение из шагового диапазона на основе входных данных.
 - [TieredRangeCalculation](./Quantex.Core/Calculations/TieredRangeCalculation.cs) - Вычисляет результат путём суммирования значений по соответствующим диапазонам (уровням).
-- [OppositeAmountCalculation](./Quantex.Core/Calculations/TieredRangeCalculation.cs) - Возвращает противоположное по знаку значение, полученное в результате вложенного (подчиненного) вычисления.
-- [SumAmountCalculation](./Quantex.Core/Calculations/SumAmountCalculation.cs) - Суммирует результаты, полученные от нескольких вложенных (подчиненных) вычислений.
-- [MaxAmountCalculation](./Quantex.Core/Calculations/MaxAmountCalculation.cs) - Возвращает максимальное значение среди результатов вложенных (подчиненных) вычислений.
-- [MinAmountCalculation](./Quantex.Core/Calculations/MinAmountCalculation.cs) - Возвращает минимальное значение среди результатов вложенных (подчиненных) вычислений.
+- [OppositeCalculation](./Quantex.Core/Calculations/OppositeCalculation.cs) - Возвращает противоположное по знаку значение, полученное в результате вложенного (подчиненного) вычисления.
+- [SumCalculation](./Quantex.Core/Calculations/SumCalculation.cs) - Суммирует результаты, полученные от нескольких вложенных (подчиненных) вычислений.
+- [MaxCalculation](./Quantex.Core/Calculations/MaxCalculation.cs) - Возвращает максимальное значение среди результатов вложенных (подчиненных) вычислений.
+- [MinCalculation](./Quantex.Core/Calculations/MinCalculation.cs) - Возвращает минимальное значение среди результатов вложенных (подчиненных) вычислений.
 - [ClampedCalculation](./Quantex.Core/Calculations/ClampedCalculation.cs) - Ограничивает результат вложенного вычисления заданными минимальным и максимальным значениями.
 - [TernaryCalculation](./Quantex.Core/Calculations/TernaryCalculation.cs) - Выбирает и выполняет одно из двух вычислений в зависимости от результата проверки заданного условия.
-- [AdditionAmountCalculation](./Quantex.Core/Calculations/AdditionAmountCalculation.cs) - Прибавляет фиксированное значение к значению из контекста и возвращает итоговый результат.
-- [MultiplicationAmountCalculation](./Quantex.Core/Calculations/MultiplicationAmountCalculation.cs) - Умножает значение из контекста на фиксированное число и возвращает итоговый результат.
+- [AdditionCalculation](./Quantex.Core/Calculations/AdditionCalculation.cs) - Прибавляет фиксированное значение к значению из контекста и возвращает итоговый результат.
+- [SubtractionCalculation](./Quantex.Core/Calculations/SubtractionCalculation.cs) - Прибавляет фиксированное значение к значению из контекста и возвращает итоговый результат.
+- [MultiplicationCalculation](./Quantex.Core/Calculations/MultiplicationCalculation.cs) - Умножает значение из контекста на фиксированное число и возвращает итоговый результат.
+- [DivisionCalculation](./Quantex.Core/Calculations/DivisionCalculation.cs) - Умножает значение из контекста на фиксированное число и возвращает итоговый результат.
 - [ContextValueAdditionCalculation](./Quantex.Core/Calculations/ContextValueAdditionCalculation.cs) - Временно добавляет фиксированное число к значению из контекста перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 - [ContextValueMultiplicationCalculation](./Quantex.Core/Calculations/ContextValueMultiplicationCalculation.cs) - Временно умножает значение из контекста на фиксированное число перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 - [UniversalStepRangeCalculation](./Quantex.Core/Calculations/UniversalStepRangeCalculation.cs) - Выбирает вложенное вычисление, соответствующее шаговому диапазону на основе входных данных, и выполняет его, возвращая полученный результат.
@@ -94,31 +96,31 @@
 Данная схема:
 ```csharp
 var deliveryExpense = new ExpenseUnit(
-    name: "Delivery",
-    displayName: "Доставка",
-    condition: new GreaterThanOrEqualCondition("price", 1000),
-    calculationMethod: new TernaryCalculation(
-        new LessThanOrEqualCondition("price", 300),
-        ifTrue: new StepRangeCalculation(
-            "volume",
-            ranges: [
-                new StepRangeRule(0.0m, 30m, 400, StepRangeRuleType.FixedAmount),
-                new StepRangeRule(30m, 190, 792, StepRangeRuleType.FixedAmount),
-                new StepRangeRule(190m, decimal.MaxValue, 1000, StepRangeRuleType.FixedAmount),
-                ]),
-        ifFalse: new UniversalStepRangeCalculation(
-            "volume",
-            ranges: [
-                new UniversalStepRangeRule(0, 3, new FixedAmountCalculation(200)),
-                new UniversalStepRangeRule(3, 190,
-                    new SumAmountCalculation([
-                            new FixedAmountCalculation(116),
-                            new ContextValueAdditionCalculation("volume", -3, new MultiplicationAmountCalculation("volume", 23))
-                        ])
-                    ),
-                new UniversalStepRangeRule(190, decimal.MaxValue, new FixedAmountCalculation(5000)),
-                ])),
-    validFrom: DateTimeOffset.UtcNow.AddDays(-1));
+name: "Delivery",
+displayName: "Доставка",
+condition: new GreaterThanOrEqualCondition("price", 1000),
+calculationMethod: new TernaryCalculation(
+    condition: new LessThanOrEqualCondition("price", 300),
+    ifTrue: new StepRangeCalculation(
+        key: "volume",
+        ranges: [
+            new StepRangeRule(0.0m, 30m, 400, StepRangeRuleType.Fixed),
+            new StepRangeRule(30m, 190, 792, StepRangeRuleType.Fixed),
+            new StepRangeRule(190m, decimal.MaxValue, 1000, StepRangeRuleType.Fixed),
+            ]),
+    ifFalse: new UniversalStepRangeCalculation(
+        key: "volume",
+        ranges: [
+            new UniversalStepRangeRule(0, 3, new FixedCalculation(200)),
+            new UniversalStepRangeRule(3, 190,
+                new SumCalculation([
+                        new FixedCalculation(116),
+                        new ContextValueAdditionCalculation("volume", -3, new MultiplicationCalculation("volume", 23))
+                    ])
+                ),
+            new UniversalStepRangeRule(190, decimal.MaxValue, new FixedCalculation(5000)),
+            ])),
+validFrom: DateTimeOffset.UtcNow.AddDays(-1));
 
 var deliveryExpenseGroup = new ExpenseGroup("DELIVERY_GROUP", "Группа Доставка", expenses: [deliveryExpense]);
 
@@ -126,7 +128,8 @@ var profile = new ExpenseProfile(
     name: "Default",
     displayName: "Профиль Бытовая техника",
     condition: new EqualsStringCondition("product_type", "Бытовая техника"),
-    expenseGroups: [deliveryExpenseGroup]);
+    groups: [deliveryExpenseGroup]);
+
 ```
 
 сериализуется в:
@@ -139,9 +142,9 @@ var profile = new ExpenseProfile(
   "Condition": {
     "$conditionType": "==s",
     "Key": "product_type",
-    "Expected": "Бытовая техника"
+    "Value": "Бытовая техника"
   },
-  "ExpenseGroups": [
+  "Groups": [
     {
       "Name": "DELIVERY_GROUP",
       "DisplayName": "Группа Доставка",
@@ -172,19 +175,19 @@ var profile = new ExpenseProfile(
                   "From": 0.0,
                   "To": 30,
                   "Value": 400,
-                  "Type": "FixedAmount"
+                  "Type": "Fixed"
                 },
                 {
                   "From": 30,
                   "To": 190,
                   "Value": 792,
-                  "Type": "FixedAmount"
+                  "Type": "Fixed"
                 },
                 {
                   "From": 190,
                   "To": 79228162514264337593543950335,
                   "Value": 1000,
-                  "Type": "FixedAmount"
+                  "Type": "Fixed"
                 }
               ]
             },
@@ -197,7 +200,7 @@ var profile = new ExpenseProfile(
                   "To": 3,
                   "Calculation": {
                     "$calculationType": "fixed",
-                    "Amount": 200
+                    "Value": 200
                   }
                 },
                 {
@@ -208,16 +211,16 @@ var profile = new ExpenseProfile(
                     "Calculations": [
                       {
                         "$calculationType": "fixed",
-                        "Amount": 116
+                        "Value": 116
                       },
                       {
                         "$calculationType": "ctx:+",
                         "Key": "volume",
-                        "Amount": -3,
+                        "Value": -3,
                         "Calculation": {
                           "$calculationType": "*",
                           "Key": "volume",
-                          "Multiplier": 23
+                          "Value": 23
                         }
                       }
                     ]
@@ -228,14 +231,14 @@ var profile = new ExpenseProfile(
                   "To": 79228162514264337593543950335,
                   "Calculation": {
                     "$calculationType": "fixed",
-                    "Amount": 5000
+                    "Value": 5000
                   }
                 }
               ]
             }
           },
           "IsActive": true,
-          "ValidFrom": "2025-10-26T00:00:01.0000000+00:00",
+          "ValidFrom": "2025-10-28T18:21:28.2697322+00:00",
           "ValidTo": null
         }
       ]

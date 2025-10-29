@@ -5,12 +5,12 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает минимальное значение среди результатов вложенных (подчиненных) вычислений.
 /// </summary>
-public sealed class MinAmountCalculation : ICalculationMethod
+public sealed class MinCalculation : ICalculationMethod
 {
+    public List<ICalculationMethod> Calculations { get; init; }
+
     [JsonIgnore]
     private List<string>? _requiredKeys;
-
-    public List<ICalculationMethod> Calculations { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys
@@ -30,7 +30,7 @@ public sealed class MinAmountCalculation : ICalculationMethod
         }
     }
 
-    public MinAmountCalculation(List<ICalculationMethod> calculations)
+    public MinCalculation(List<ICalculationMethod> calculations)
     {
         Calculations = calculations ?? throw new ArgumentNullException(nameof(calculations));
         if (Calculations.Count == 0)

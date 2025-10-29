@@ -10,24 +10,24 @@ public class CalculationMethodTests
 
     // ----
     [Fact]
-    [Trait("Class", nameof(FixedAmountCalculation))]
+    [Trait("Class", nameof(FixedCalculation))]
     public void FixedAmountCalculation_Constructor_CreateInstance()
     {
         var amount = 100m;
 
-        var calc = new FixedAmountCalculation(amount);
+        var calc = new FixedCalculation(amount);
 
         Assert.NotNull(calc);
-        Assert.Equal(amount, calc.Amount);
+        Assert.Equal(amount, calc.Value);
         Assert.Empty(calc.RequiredKeys);
     }
 
     [Fact]
-    [Trait("Class", nameof(FixedAmountCalculation))]
+    [Trait("Class", nameof(FixedCalculation))]
     public void FixedAmountCalculation_Calculate_ReturnsAmount()
     {
         var amount = 100m;
-        var calc = new FixedAmountCalculation(amount);
+        var calc = new FixedCalculation(amount);
         var ctx = new Dictionary<string, object>();
 
         var actual = calc.Calculate(ctx);
@@ -48,7 +48,7 @@ public class CalculationMethodTests
         Assert.NotNull(calc);
         Assert.NotNull(calc.Key);
         Assert.Equal(key, calc.Key);
-        Assert.Equal(percentage, calc.Percentage);
+        Assert.Equal(percentage, calc.Value);
         Assert.Contains(key, calc.RequiredKeys);
     }
 
@@ -156,7 +156,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var type = StepRangeRuleType.FixedAmount;
+        var type = StepRangeRuleType.Fixed;
         var range = new StepRangeRule(from, to, value, type);
 
         var result = range.IsInRange(amount);
@@ -172,7 +172,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var type = StepRangeRuleType.FixedAmount;
+        var type = StepRangeRuleType.Fixed;
         var range = new StepRangeRule(from, to, value, type);
 
         var result = range.IsInRange(amount);
@@ -188,7 +188,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var type = StepRangeRuleType.FixedAmount;
+        var type = StepRangeRuleType.Fixed;
         var range = new StepRangeRule(from, to, value, type);
 
         var result = range.IsInRange(amount);
@@ -204,7 +204,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var type = StepRangeRuleType.FixedAmount;
+        var type = StepRangeRuleType.Fixed;
         var range = new StepRangeRule(from, to, value, type);
 
         Assert.True(range.TryGetCost(amount, out var actual));
@@ -218,7 +218,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var type = StepRangeRuleType.FixedAmount;
+        var type = StepRangeRuleType.Fixed;
         var range = new StepRangeRule(from, to, value, type);
         var expectedValue = 99m;
 
@@ -252,7 +252,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var type = StepRangeRuleType.FixedAmount;
+        var type = StepRangeRuleType.Fixed;
         var range = new StepRangeRule(from, to, value, type);
 
         Assert.False(range.TryGetCost(amount, out _));
@@ -266,7 +266,7 @@ public class CalculationMethodTests
         var from = 0m;
         var to = 5m;
         var value = 99m;
-        var validType = StepRangeRuleType.FixedAmount;
+        var validType = StepRangeRuleType.Fixed;
         var invalidType = (StepRangeRuleType)1_000;
 
         var range = new StepRangeRule(from, to, value, validType);
@@ -286,10 +286,10 @@ public class CalculationMethodTests
     {
         var key = "key";
         List<StepRangeRule> ranges = [
-            new StepRangeRule(0, 5, 10, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(10, 15, 30, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(5, 10, 20, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(15, 20, 40, StepRangeRuleType.FixedAmount)];
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(10, 15, 30, StepRangeRuleType.Fixed),
+            new StepRangeRule(5, 10, 20, StepRangeRuleType.Fixed),
+            new StepRangeRule(15, 20, 40, StepRangeRuleType.Fixed)];
 
         var calc = new StepRangeCalculation(key, ranges);
 
@@ -306,8 +306,8 @@ public class CalculationMethodTests
     {
         string? key = null;
         List<StepRangeRule> ranges = [
-            new StepRangeRule(0, 5, 10, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(5, 10, 20, StepRangeRuleType.FixedAmount)];
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(5, 10, 20, StepRangeRuleType.Fixed)];
 
         var action = () => { new StepRangeCalculation(key!, ranges); };
 
@@ -332,10 +332,10 @@ public class CalculationMethodTests
     {
         string key = "key";
         List<StepRangeRule> ranges = [
-            new StepRangeRule(0, 5, 10, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(6, 10, 20, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(4, 7, 20, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(11, 20, 30, StepRangeRuleType.FixedAmount)];
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(6, 10, 20, StepRangeRuleType.Fixed),
+            new StepRangeRule(4, 7, 20, StepRangeRuleType.Fixed),
+            new StepRangeRule(11, 20, 30, StepRangeRuleType.Fixed)];
 
         var action = () => { new StepRangeCalculation(key, ranges); };
 
@@ -350,8 +350,8 @@ public class CalculationMethodTests
         string key = "key";
         var ctx = new Dictionary<string, object> { { key, amount } };
         List<StepRangeRule> ranges = [
-            new StepRangeRule(0, 5, 10, StepRangeRuleType.FixedAmount),
-            new StepRangeRule(5, 10, 20, StepRangeRuleType.FixedAmount)];
+            new StepRangeRule(0, 5, 10, StepRangeRuleType.Fixed),
+            new StepRangeRule(5, 10, 20, StepRangeRuleType.Fixed)];
         var calc = new StepRangeCalculation(key, ranges);
         var expected = 20m;
 

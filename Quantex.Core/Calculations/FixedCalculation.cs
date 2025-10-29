@@ -5,14 +5,14 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает заданную фиксированную сумму.
 /// </summary>
-public sealed class FixedAmountCalculation : ICalculationMethod
+public sealed class FixedCalculation : ICalculationMethod
 {
-    public decimal Amount { get; init; }
+    public decimal Value { get; init; }
 
     [JsonIgnore]
     public List<string> RequiredKeys => [];
 
-    public FixedAmountCalculation(decimal amount) => Amount = amount;
+    public FixedCalculation(decimal value) => Value = value;
 
-    public decimal Calculate(Dictionary<string, object> context) => Amount;
+    public decimal Calculate(Dictionary<string, object> context) => Value;
 }

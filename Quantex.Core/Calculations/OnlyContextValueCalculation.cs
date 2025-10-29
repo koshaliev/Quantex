@@ -1,4 +1,6 @@
-﻿namespace Quantex.Core.Calculations;
+﻿using System.Text.Json.Serialization;
+
+namespace Quantex.Core.Calculations;
 
 /// <summary>
 /// Метод, который возвращает значение из контекста.
@@ -6,6 +8,8 @@
 public sealed class OnlyContextValueCalculation : ICalculationMethod
 {
     public string Key { get; init; }
+
+    [JsonIgnore]
     public List<string> RequiredKeys => [Key];
 
     public OnlyContextValueCalculation(string key)

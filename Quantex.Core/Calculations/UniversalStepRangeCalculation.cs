@@ -7,11 +7,11 @@ namespace Quantex.Core.Calculations;
 /// </summary>
 public sealed class UniversalStepRangeCalculation : ICalculationMethod
 {
-    [JsonIgnore]
-    private List<string>? _requiredKeys;
-
     public string Key { get; set; }
     public List<UniversalStepRangeRule> Ranges { get; }
+
+    [JsonIgnore]
+    private List<string>? _requiredKeys;
 
     [JsonIgnore]
     public List<string> RequiredKeys

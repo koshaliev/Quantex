@@ -60,9 +60,9 @@
 - [ClampedCalculation](./Quantex.Core/Calculations/ClampedCalculation.cs) - Ограничивает результат вложенного вычисления заданными минимальным и максимальным значениями.
 - [TernaryCalculation](./Quantex.Core/Calculations/TernaryCalculation.cs) - Выбирает и выполняет одно из двух вычислений в зависимости от результата проверки заданного условия.
 - [AdditionCalculation](./Quantex.Core/Calculations/AdditionCalculation.cs) - Прибавляет фиксированное значение к значению из контекста и возвращает итоговый результат.
-- [SubtractionCalculation](./Quantex.Core/Calculations/SubtractionCalculation.cs) - Прибавляет фиксированное значение к значению из контекста и возвращает итоговый результат.
+- [SubtractionCalculation](./Quantex.Core/Calculations/SubtractionCalculation.cs) - Отнимает фиксированное значение из значения в контексте и возвращает итоговый результат.
 - [MultiplicationCalculation](./Quantex.Core/Calculations/MultiplicationCalculation.cs) - Умножает значение из контекста на фиксированное число и возвращает итоговый результат.
-- [DivisionCalculation](./Quantex.Core/Calculations/DivisionCalculation.cs) - Умножает значение из контекста на фиксированное число и возвращает итоговый результат.
+- [DivisionCalculation](./Quantex.Core/Calculations/DivisionCalculation.cs) - Делит значение из контекста на фиксированное число и возвращает итоговый результат.
 - [ContextValueAdditionCalculation](./Quantex.Core/Calculations/ContextValueAdditionCalculation.cs) - Временно добавляет фиксированное число к значению из контекста перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 - [ContextValueMultiplicationCalculation](./Quantex.Core/Calculations/ContextValueMultiplicationCalculation.cs) - Временно умножает значение из контекста на фиксированное число перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 - [UniversalStepRangeCalculation](./Quantex.Core/Calculations/UniversalStepRangeCalculation.cs) - Выбирает вложенное вычисление, соответствующее шаговому диапазону на основе входных данных, и выполняет его, возвращая полученный результат.
@@ -90,10 +90,7 @@
 Несмотря на большое количество различных методов вычисления и условий, все реализации поддерживают сериализацию и десериализацию.  
 Это позволяет вручную описывать схемы и правила расчёта в JSON.
 
-
-### Пример
-
-Данная схема:
+Например, следующее определение:
 ```csharp
 var deliveryExpense = new ExpenseUnit(
 name: "Delivery",

@@ -177,7 +177,7 @@ public class CalculationMethodTests
 
         var result = range.IsInRange(amount);
 
-        Assert.False(result);
+        Assert.True(result);
     }
 
     [Fact]

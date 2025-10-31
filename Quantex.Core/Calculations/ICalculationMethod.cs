@@ -20,6 +20,10 @@ namespace Quantex.Core.Calculations;
 [JsonDerivedType(typeof(ContextValueMultiplicationCalculation), "ctx:*")]
 [JsonDerivedType(typeof(UniversalStepRangeCalculation), "universal-step")]
 [JsonDerivedType(typeof(OnlyContextValueCalculation), "only-ctx-value")]
+[JsonDerivedType(typeof(ProductCalculation), "product")]
+[JsonDerivedType(typeof(MappingTableCalculation), "mapping-table")]
+[JsonDerivedType(typeof(ForwardMappingTableCalculation), "forward-mapping-table")]
+[JsonDerivedType(typeof(CachedContextCalculation), "cached-ctx")]
 public interface ICalculationMethod
 {
     public List<string> RequiredKeys { get; }

@@ -68,6 +68,14 @@
 - [UniversalStepRangeCalculation](./Quantex.Core/Calculations/UniversalStepRangeCalculation.cs) - Выбирает вложенное вычисление, соответствующее шаговому диапазону на основе входных данных, и выполняет его, возвращая полученный результат.
 - [OnlyContextValueCalculation](./Quantex.Core/Calculations/OnlyContextValueCalculation.cs) - Возвращает значение из контекста.
 
+- [ProductCalculation](./Quantex.Core/Calculations/ProductCalculation.cs) - Перемножает результаты, полученные от нескольких вложенных (подчиненных) вычислений.
+- [MappingTableCalculation](./Quantex.Core/Calculations/MappingTableCalculation.cs) - Возвращает результат, соответствующий значению из контекста, на основе набора правил сопоставления.
+- [ForwardMappingTableCalculation](./Quantex.Core/Calculations/ForwardMappingTableCalculation.cs) - Метод, который возвращает значение, соответствующее ближайшему большему правилу из таблицы сопоставления. 
+Если значение меньше минимального - используется первое правило, если больше максимального - последнее.
+- [CachedContextCalculation](./Quantex.Core/Calculations/CachedContextCalculation.cs) - Вычисляет результат вложенных методов и сохраняет их в отдельном контексте под заданным ключом.
+При повторных вызовах возвращает ранее сохранённое значение из отдельного контекста, не выполняя повторное вычисление.
+Всегда возвращает результат последнего вложенного метода вычисления.
+
 ---
 
 #### Условия (реализации интерфейса `ICondition`)

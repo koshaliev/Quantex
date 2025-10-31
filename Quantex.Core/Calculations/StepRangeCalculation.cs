@@ -72,7 +72,7 @@ public sealed class StepRangeRule
         Type = type;
     }
 
-    public bool IsInRange(decimal amount) => amount >= From && amount < To;
+    public bool IsInRange(decimal amount) => amount > From && amount <= To;
     public bool TryGetCost(decimal amount, out decimal cost)
     {
         cost = 0;
@@ -88,7 +88,7 @@ public sealed class StepRangeRule
         return true;
     }
 
-    public override string ToString() => $"[{From}..{To}) @ {Type}: {Value}{(Type == StepRangeRuleType.Percentage ? "%" : string.Empty)}";
+    public override string ToString() => $"({From}..{To}] @ {Type}: {Value}{(Type == StepRangeRuleType.Percentage ? "%" : string.Empty)}";
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<StepRangeRuleType>))]

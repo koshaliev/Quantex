@@ -72,7 +72,7 @@ public class TieredRangeRule
         Type = type;
     }
 
-    public bool IsInRange(decimal amount) => amount >= From;
+    public bool IsInRange(decimal amount) => amount > From;
 
     public bool TryGetCost(decimal amount, out decimal cost)
     {
@@ -89,7 +89,7 @@ public class TieredRangeRule
         return true;
     }
 
-    public override string ToString() => $"[{From}..{To}) @ {Type}: {Value}{(Type == TieredRangeType.Percentage ? " %" : string.Empty)}";
+    public override string ToString() => $"({From}..{To}] @ {Type}: {Value}{(Type == TieredRangeType.Percentage ? " %" : string.Empty)}";
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter<TieredRangeType>))]

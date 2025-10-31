@@ -52,7 +52,7 @@ public sealed class UniversalStepRangeCalculation : ICalculationMethod
         throw new ArgumentException($"No range found for value {decimalValue}");
     }
 
-    private bool IsInRange(UniversalStepRangeRule range, decimal value) => value >= range.From && value < range.To;
+    private bool IsInRange(UniversalStepRangeRule range, decimal value) => value > range.From && value <= range.To;
 
     private static void ValidateAndSort(List<UniversalStepRangeRule> ranges)
     {
@@ -88,5 +88,5 @@ public sealed class UniversalStepRangeRule
         Calculation = calculation ?? throw new ArgumentNullException(nameof(calculation));
     }
     public decimal GetCost(Dictionary<string, object> context) => Calculation.Calculate(context);
-    public override string ToString() => $"[{From}..{To}) @ Calculation method: {Calculation}";
+    public override string ToString() => $"({From}..{To}] @ Calculation method: {Calculation}";
 }

@@ -70,9 +70,9 @@
 
 - [ProductCalculation](./Quantex.Core/Calculations/ProductCalculation.cs) - Перемножает результаты, полученные от нескольких вложенных (подчиненных) вычислений.
 - [MappingTableCalculation](./Quantex.Core/Calculations/MappingTableCalculation.cs) - Возвращает результат, соответствующий значению из контекста, на основе набора правил сопоставления.
-- [ForwardMappingTableCalculation](./Quantex.Core/Calculations/ForwardMappingTableCalculation.cs) - Метод, который возвращает значение, соответствующее ближайшему большему правилу из таблицы сопоставления. 
+- [ForwardMappingTableCalculation](./Quantex.Core/Calculations/ForwardMappingTableCalculation.cs) - Возвращает значение, соответствующее ближайшему большему правилу из таблицы сопоставления. 
 Если значение меньше минимального - используется первое правило, если больше максимального - последнее.
-- [CachedContextCalculation](./Quantex.Core/Calculations/CachedContextCalculation.cs) - Вычисляет результат вложенных методов и сохраняет их в отдельном контексте под заданным ключом.
+- [ScopedContextCalculation](./Quantex.Core/Calculations/ScopedContextCalculation.cs) - Вычисляет результат вложенных методов и сохраняет их в отдельном контексте под заданным ключом.
 При повторных вызовах возвращает ранее сохранённое значение из отдельного контекста, не выполняя повторное вычисление.
 Всегда возвращает результат последнего вложенного метода вычисления.
 

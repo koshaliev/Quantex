@@ -404,7 +404,7 @@ internal static class Samples
                 new(61, 0.0400m)
                 ]);
 
-        var cached = new CachedContextCalculation([
+        var cached = new ScopedContextCalculation([
             new("#delivery", deliveryCalculation),
             new("#logistics", new ProductCalculation([
                 logisticsCoefCalculation, 

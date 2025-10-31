@@ -7,7 +7,7 @@ namespace Quantex.Core.Calculations;
 /// При повторных вызовах возвращает ранее сохранённое значение из отдельного контекста, не выполняя повторное вычисление.
 /// Всегда возвращает результат последнего вложенного метода вычисления.
 /// </summary>
-public sealed class CachedContextCalculation : ICalculationMethod
+public sealed class ScopedContextCalculation : ICalculationMethod
 {
     [JsonIgnore]
     private List<string>? _requiredKeys;
@@ -35,7 +35,7 @@ public sealed class CachedContextCalculation : ICalculationMethod
         }
     }
 
-    public CachedContextCalculation(List<InnerCachedCalculation> cachedCalculations)
+    public ScopedContextCalculation(List<InnerCachedCalculation> cachedCalculations)
     {
         CachedCalculations = cachedCalculations ?? throw new ArgumentNullException(nameof(cachedCalculations));
         if (CachedCalculations.Count == 0)

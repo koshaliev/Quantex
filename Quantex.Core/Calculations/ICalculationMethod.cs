@@ -23,7 +23,7 @@ namespace Quantex.Core.Calculations;
 [JsonDerivedType(typeof(ProductCalculation), "product")]
 [JsonDerivedType(typeof(MappingTableCalculation), "mapping-table")]
 [JsonDerivedType(typeof(ForwardMappingTableCalculation), "forward-mapping-table")]
-[JsonDerivedType(typeof(CachedContextCalculation), "cached-ctx")]
+[JsonDerivedType(typeof(ScopedContextCalculation), "scoped-ctx")]
 public interface ICalculationMethod
 {
     public List<string> RequiredKeys { get; }

@@ -29,7 +29,7 @@ public sealed class TernaryCalculation : ICalculationMethod
                 for (int i = 0; i < IfTrue.RequiredKeys.Count; i++)
                     _requiredKeys.Add(IfTrue.RequiredKeys[i]);
 
-                for (int i = 0; i < IfTrue.RequiredKeys.Count; i++)
+                for (int i = 0; i < IfFalse.RequiredKeys.Count; i++)
                     _requiredKeys.Add(IfFalse.RequiredKeys[i]);
             }
             return _requiredKeys;

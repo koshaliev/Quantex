@@ -62,15 +62,6 @@ public class ExpenseUnit
         IsActive = isActive;
         ValidFrom = validFrom;
         ValidTo = validTo;
-        
-        if (Condition is not null)
-        {
-            for (int i = 0; i < Condition.RequiredKeys.Count; i++)
-                RequiredKeys.Add(Condition.RequiredKeys[i]);
-        }
-
-        for (int i = 0; i < CalculationMethod.RequiredKeys.Count; i++)
-            RequiredKeys.Add(CalculationMethod.RequiredKeys[i]);
     }
 
     public bool TryCalculate(Dictionary<string, object> context, out decimal amount)

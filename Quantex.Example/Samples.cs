@@ -365,7 +365,6 @@ internal static class Samples
                 new(61, 1.800m)
                 ]);
 
-
         var markupOnPriceCalculation = new ForwardMappingTableCalculation(
             key: "avg_delivery_time",
             rules: [
@@ -404,26 +403,29 @@ internal static class Samples
                 new(61, 0.0400m)
                 ]);
 
-        var cached = new ScopedContextCalculation([
-            new("#delivery", deliveryCalculation),
-            new("#logistics", new ProductCalculation([
-                logisticsCoefCalculation, 
-                deliveryCalculation
-                ])),
-            new("#markup", new ProductCalculation([
-                markupOnPriceCalculation,
-                new OnlyContextValueCalculation("price")
-                ])),
-            new("#result", new SumCalculation([
-                new OnlyContextValueCalculation("#markup"),
-                new OnlyContextValueCalculation("#logistics")
-                ]))
-            ]);
+        var logisticsCalculation = new TernaryCalculation(
+            condition: new EqualsStringCondition("is_kgt", "true"),
+            ifTrue: deliveryCalculation,
+            ifFalse: new ScopedContextCalculation([
+                new("#delivery", deliveryCalculation),
+                new("#logistics", new ProductCalculation([
+                    logisticsCoefCalculation,
+                    deliveryCalculation
+                    ])),
+                new("#markup", new ProductCalculation([
+                    markupOnPriceCalculation,
+                    new OnlyContextValueCalculation("price")
+                    ])),
+                new("#result", new SumCalculation([
+                    new OnlyContextValueCalculation("#markup"),
+                    new OnlyContextValueCalculation("#logistics")
+                    ]))
+                ]));
 
         var logisticsExpense = new ExpenseUnit(
             name: "OzonFboLogistics",
             displayName: "Логистика FBO",
-            calculationMethod: cached,
+            calculationMethod: logisticsCalculation,
             validFrom: DateTimeOffset.MinValue,
             validTo: null,
             condition: null,
@@ -437,7 +439,8 @@ internal static class Samples
         {
             ["price"] = 301m,
             ["volume"] = 176m,
-            ["avg_delivery_time"] = 61m
+            ["avg_delivery_time"] = 61m,
+            ["is_kgt"] = "false"
         };
 
         logisticsExpense.TryCalculate(ctx, out var result);

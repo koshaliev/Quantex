@@ -6,6 +6,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который выбирает значение из шагового диапазона на основе входного значения.
 /// </summary>
+[CalculationMethod("step")]
 public sealed class StepRangeCalculation : ICalculationMethod
 {
     public string Key { get; init; }

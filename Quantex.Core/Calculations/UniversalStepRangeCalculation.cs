@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который выбирает вложенное вычисление, соответствующее шаговому диапазону на основе входных данных, и выполняет его, возвращая полученный результат.
 /// </summary>
+[CalculationMethod("universal-step")]
 public sealed class UniversalStepRangeCalculation : ICalculationMethod
 {
     public string Key { get; set; }

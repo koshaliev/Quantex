@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает минимальное значение среди результатов вложенных (подчиненных) вычислений.
 /// </summary>
+[CalculationMethod("min")]
 public sealed class MinCalculation : ICalculationMethod
 {
     public List<ICalculationMethod> Calculations { get; init; }

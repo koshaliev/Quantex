@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает максимальное значение среди результатов вложенных (подчиненных) вычислений.
 /// </summary>
+[CalculationMethod("max")]
 public sealed class MaxCalculation : ICalculationMethod
 {
     public List<ICalculationMethod> Calculations { get; init; }

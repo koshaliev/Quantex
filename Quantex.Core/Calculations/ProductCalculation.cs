@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который перемножает результаты, полученные от нескольких вложенных (подчиненных) вычислений.
 /// </summary>
+[CalculationMethod("product")]
 public sealed class ProductCalculation : ICalculationMethod
 {
     public List<ICalculationMethod> Calculations { get; init; }

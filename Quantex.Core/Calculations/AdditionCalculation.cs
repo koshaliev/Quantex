@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который прибавляет фиксированное значение к значению из контекста и возвращает итоговый результат.
 /// </summary>
+[CalculationMethod("+")]
 public sealed class AdditionCalculation : ICalculationMethod
 {
     public string Key { get; init; }

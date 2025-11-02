@@ -5,6 +5,7 @@ namespace Quantex.Core.Conditions;
 /// <summary>
 /// Условие, которое возвращает true, если числовое значение в контексте больше указанного порога.
 /// </summary>
+[Condition(">")]
 public sealed class GreaterThanCondition : ICondition
 {
     public string Key { get; }

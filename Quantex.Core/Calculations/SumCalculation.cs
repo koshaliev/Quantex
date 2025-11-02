@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который суммирует результаты, полученные от нескольких вложенных (подчиненных) вычислений.
 /// </summary>
+[CalculationMethod("sum")]
 public sealed class SumCalculation : ICalculationMethod
 {
     public List<ICalculationMethod> Calculations { get; init; }

@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который вычисляет результат путём суммирования значений по соответствующим диапазонам (уровням).
 /// </summary>
+[CalculationMethod("tiered")]
 public sealed class TieredRangeCalculation : ICalculationMethod
 {
     public string Key { get; init; }

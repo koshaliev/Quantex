@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает значение из контекста.
 /// </summary>
+[CalculationMethod("only-ctx-value")]
 public sealed class OnlyContextValueCalculation : ICalculationMethod
 {
     public string Key { get; init; }

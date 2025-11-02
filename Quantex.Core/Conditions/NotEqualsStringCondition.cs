@@ -5,6 +5,7 @@ namespace Quantex.Core.Conditions;
 /// <summary>
 /// Условие, которое проверяет, не совпадает ли строковое значение в контексте с заданной строкой.
 /// </summary>
+[Condition("!=s")]
 public sealed class NotEqualsStringCondition : ICondition
 {
     public string Key { get; }

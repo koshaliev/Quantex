@@ -6,6 +6,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который выбирает и выполняет одно из двух вычислений в зависимости от результата проверки заданного условия.
 /// </summary>
+[CalculationMethod("?")]
 public sealed class TernaryCalculation : ICalculationMethod
 {
     public ICondition Condition { get; }

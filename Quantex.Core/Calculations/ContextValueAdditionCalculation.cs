@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который временно добавляет фиксированное число к значению из контекста перед выполнением вычисления, а затем восстанавливает исходное значение контекста.
 /// </summary>
+[CalculationMethod("ctx:+")]
 public sealed class ContextValueAdditionCalculation : ICalculationMethod
 {
     public string Key { get; init; }

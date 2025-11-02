@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает результат, соответствующий значению из контекста, на основе набора правил сопоставления.
 /// </summary>
+[CalculationMethod("mapping-table")]
 public sealed class MappingTableCalculation : ICalculationMethod
 {
     public string Key { get; init; }
@@ -37,10 +38,12 @@ public sealed class MappingTableCalculation : ICalculationMethod
     }
 }
 
+
 /// <summary>
 /// Метод, который возвращает значение, соответствующее ближайшему большему правилу из таблицы сопоставления.
 /// Если значение меньше минимального - используется первое правило, если больше максимального - последнее.
 /// </summary>
+[CalculationMethod("forward-mapping-table")]
 public sealed class ForwardMappingTableCalculation : ICalculationMethod
 {
     public string Key { get; init; }

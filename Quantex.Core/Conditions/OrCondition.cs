@@ -5,6 +5,7 @@ namespace Quantex.Core.Conditions;
 /// <summary>
 /// Условие, которое объединяет несколько вложенных условий логическим оператором «ИЛИ» и истинно, если хотя бы одно из вложенных условий истинно.
 /// </summary>
+[Condition("or")]
 public sealed class OrCondition : ICondition
 {
     [JsonIgnore]

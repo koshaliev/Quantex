@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который возвращает заданную фиксированную сумму.
 /// </summary>
+[CalculationMethod("fixed")]
 public sealed class FixedCalculation : ICalculationMethod
 {
     public decimal Value { get; init; }

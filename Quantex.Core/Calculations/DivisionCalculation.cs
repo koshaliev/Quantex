@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который делит значение из контекста на фиксированное число и возвращает итоговый результат.
 /// </summary>
+[CalculationMethod("/")]
 public sealed class DivisionCalculation : ICalculationMethod
 {
     public string Key { get; init; }

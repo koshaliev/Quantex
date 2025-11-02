@@ -7,6 +7,7 @@ namespace Quantex.Core.Calculations;
 /// При повторных вызовах возвращает ранее сохранённое значение из отдельного контекста, не выполняя повторное вычисление.
 /// Всегда возвращает результат последнего вложенного метода вычисления.
 /// </summary>
+[CalculationMethod("scoped-ctx")]
 public sealed class ScopedContextCalculation : ICalculationMethod
 {
     [JsonIgnore]

@@ -5,6 +5,7 @@ namespace Quantex.Core.Conditions;
 /// <summary>
 /// Условие, которое инвертирует результат вложенного (подчиненного) условия.
 /// </summary>
+[Condition("not")]
 public sealed class NotCondition : ICondition
 {
     public ICondition Condition { get; }

@@ -25,10 +25,18 @@ public sealed class ScopedContextCalculation : ICalculationMethod
             if (_requiredKeys is null)
             {
                 _requiredKeys = [];
+                var resultKeys = new List<string>(CachedCalculations.Count);
                 for (int i = 0; i < CachedCalculations.Count; i++)
                 {
                     for (int j = 0; j < CachedCalculations[i].Calculation.RequiredKeys.Count; j++)
+                    {
+                        resultKeys.Add(CachedCalculations[i].ResultKey);
                         _requiredKeys.Add(CachedCalculations[i].Calculation.RequiredKeys[j]);
+                    }
+                }
+                for (int i = 0; i < resultKeys.Count; i++)
+                {
+                    _requiredKeys.Remove(resultKeys[i]);
                 }
             }
             return _requiredKeys;

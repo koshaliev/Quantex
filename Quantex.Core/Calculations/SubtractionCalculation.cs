@@ -5,6 +5,7 @@ namespace Quantex.Core.Calculations;
 /// <summary>
 /// Метод, который уменьшает значение из контекста на фиксированное значение и возвращает итоговый результат.
 /// </summary>
+[CalculationMethod("-")]
 public sealed class SubtractionCalculation : ICalculationMethod
 {
     public string Key { get; init; }

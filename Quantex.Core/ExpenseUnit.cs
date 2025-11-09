@@ -1,6 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Quantex.Core.Calculations;
-using Quantex.Core.Conditions;
 
 namespace Quantex.Core;
 

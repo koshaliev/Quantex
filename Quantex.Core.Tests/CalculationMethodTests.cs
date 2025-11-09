@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-using Newtonsoft.Json.Linq;
 using Quantex.Core.Calculations;
 
-namespace Quantext.Core.Tests;
+namespace Quantex.Core.Tests;
 
 public class CalculationMethodTests
 {

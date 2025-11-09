@@ -29,7 +29,7 @@ public sealed class MappingTableCalculation : ICalculationMethod
         if (!context.TryGetValue(Key, out var value) || value is not decimal decimalValue)
             throw new ArgumentException($"Invalid context for {nameof(MappingTableCalculation)}. Key '{Key}' not found or Value is not decimal in context.");
 
-        for (int i = 0; i < Rules.Count;i++)
+        for (int i = 0; i < Rules.Count; i++)
         {
             if (decimalValue == Rules[i].When)
                 return Rules[i].Then;

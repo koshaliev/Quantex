@@ -13,7 +13,6 @@ public sealed class OppositeCalculation : ICalculationMethod
     [JsonIgnore]
     public List<string> RequiredKeys => Calculation.RequiredKeys;
 
-    [JsonConstructor]
     public OppositeCalculation(ICalculationMethod calculation)
     {
         Calculation = calculation ?? throw new ArgumentNullException(nameof(calculation));

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Quantex.Core.Calculations;
 
@@ -67,7 +66,7 @@ public sealed class StepRangeRule
         From = from;
         To = to;
         Value = value;
-        
+
         if (!Enum.IsDefined(type))
             throw new ArgumentException($"Invalid enum value for {typeof(StepRangeRuleType).Name}.");
         Type = type;

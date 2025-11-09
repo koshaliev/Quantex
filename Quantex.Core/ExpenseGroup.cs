@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using Quantex.Core.Conditions;
 
 namespace Quantex.Core;
 

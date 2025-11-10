@@ -19,10 +19,11 @@ internal static class Samples
     {
         Console.WriteLine("\n\t\t ======== Simple sample ========");
         var deliveryExpense = new ExpenseUnit(
-        name: "Delivery",
-        displayName: "Доставка",
-        condition: new GreaterThanOrEqualCondition("price", 1000),
-        calculationMethod: new TernaryCalculation(
+            id: Guid.NewGuid(),
+            name: "Delivery",
+            displayName: "Доставка",
+            condition: new GreaterThanOrEqualCondition("price", 1000),
+            calculation: new TernaryCalculation(
             condition: new LessThanOrEqualCondition("price", 300),
             ifTrue: new StepRangeCalculation(
                 key: "volume",
@@ -43,11 +44,12 @@ internal static class Samples
                         ),
                     new UniversalStepRangeRule(190, decimal.MaxValue, new FixedCalculation(5000)),
                     ])),
-        validFrom: DateTimeOffset.UtcNow.AddDays(-1));
+            validFrom: DateTimeOffset.UtcNow.AddDays(-1));
 
-        var deliveryExpenseGroup = new ExpenseGroup("DELIVERY_GROUP", "Группа Доставка", expenses: [deliveryExpense]);
+        var deliveryExpenseGroup = new ExpenseGroup(Guid.NewGuid(), "DELIVERY_GROUP", "Группа Доставка", units: [deliveryExpense]);
 
         var profile = new ExpenseProfile(
+            id: Guid.NewGuid(),
             name: "Default",
             displayName: "Профиль Бытовая техника",
             condition: new EqualsStringCondition("product_type", "Бытовая техника"),
@@ -65,9 +67,10 @@ internal static class Samples
         // SALE_GROUP
         Console.WriteLine("\n\t\t ======== Advanced sample ========");
         var saleCommissionExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "SaleComission",
             displayName: "Комиссия за продажу",
-            calculationMethod: new PercentageCalculation("price", 13.5m),
+            calculation: new PercentageCalculation("price", 13.5m),
             validFrom: DateTimeOffset.MinValue,
             validTo: null,
             condition: new EqualsStringCondition("product_category", "Электроника"),
@@ -75,9 +78,10 @@ internal static class Samples
             isActive: true);
 
         var acquiringExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "Acquiring",
             displayName: "Эквайринг",
-            calculationMethod: new PercentageCalculation("price", 1.5m),
+            calculation: new PercentageCalculation("price", 1.5m),
             validFrom: DateTimeOffset.MinValue,
             validTo: null,
             condition: null,
@@ -85,9 +89,10 @@ internal static class Samples
             isActive: true);
 
         var saleCommissionGroup = new ExpenseGroup(
+            Guid.NewGuid(),
             name: "SALE_GROUP",
             displayName: "Группа Продажа",
-            expenses: [saleCommissionExpense, acquiringExpense],
+            units: [saleCommissionExpense, acquiringExpense],
             description: null,
             condition: null);
 
@@ -95,10 +100,11 @@ internal static class Samples
         // -------------------------------
         // DELIVERY_GROUP
         var deliveryExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "Delivery",
             displayName: "Доставка",
             condition: new GreaterThanOrEqualCondition("price", 1000),
-            calculationMethod: new TernaryCalculation(
+            calculation: new TernaryCalculation(
                 new LessThanOrEqualCondition("price", 300),
                 ifTrue: new StepRangeCalculation(
                     "volume",
@@ -122,9 +128,10 @@ internal static class Samples
             validFrom: DateTimeOffset.MinValue);
 
         var lastMileExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "LastMile",
             displayName: "Последняя мила",
-            calculationMethod: new ClampedCalculation(new PercentageCalculation("price", 5.5m), 30, 500),
+            calculation: new ClampedCalculation(new PercentageCalculation("price", 5.5m), 30, 500),
             validFrom: DateTimeOffset.MinValue,
             validTo: null,
             condition: new NotEqualsStringCondition("destination_city", "Moscow"),
@@ -132,17 +139,19 @@ internal static class Samples
             isActive: true);
 
         var deliveryExpenseGroup = new ExpenseGroup(
+            Guid.NewGuid(),
             name: "DELIVERY_GROUP",
             displayName: "Группа Доставка",
-            expenses: [deliveryExpense, lastMileExpense]);
+            units: [deliveryExpense, lastMileExpense]);
 
 
         // -------------------------------
         // PACKAGING_GROUP
         var packingByEmployeeExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "PackingByEmployee",
             displayName: "Упаковка товара сотрудником",
-            calculationMethod: new ClampedCalculation(
+            calculation: new ClampedCalculation(
                 calculation: new PercentageCalculation("purchase_price", 1.1m),
                 minAmount: null,
                 maxAmount: 50),
@@ -153,9 +162,10 @@ internal static class Samples
             isActive: true);
 
         var productPackageExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "ProductPackage",
             displayName: "Упаковочная тара для товара",
-            calculationMethod: new StepRangeCalculation(
+            calculation: new StepRangeCalculation(
                 key: "volume",
                 ranges: [
                     new StepRangeRule(0, 100, 90, StepRangeRuleType.Fixed),
@@ -169,17 +179,19 @@ internal static class Samples
             isActive: true);
 
         var productPackagingGroup = new ExpenseGroup(
+            Guid.NewGuid(),
             name: "PACKAGING_GROUP",
             displayName: "Группа Упаковка",
-            expenses: [packingByEmployeeExpense, productPackageExpense]);
+            units: [packingByEmployeeExpense, productPackageExpense]);
 
 
         // -------------------------------
         // PRODUCT_PURCHASE_GROUP
         var productPurchaseExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "ProductPurchase",
             displayName: "Закупочная цена товара",
-            calculationMethod: new OnlyContextValueCalculation("purchase_price"),
+            calculation: new OnlyContextValueCalculation("purchase_price"),
             validFrom: DateTimeOffset.MinValue,
             validTo: null,
             condition: null,
@@ -187,14 +199,16 @@ internal static class Samples
             isActive: true);
 
         var productPurchaseGroup = new ExpenseGroup(
+            Guid.NewGuid(),
             name: "PRODUCT_PURCHASE_GROUP",
             displayName: "Группа Закупка товара",
-            expenses: [productPurchaseExpense]);
+            units: [productPurchaseExpense]);
 
 
         // -------------------------------
         // Creating profile
         var profile = new ExpenseProfile(
+            Guid.NewGuid(),
             name: "Default",
             displayName: "Профиль Электроника",
             condition: new EqualsStringCondition("product_category", "Электроника"),
@@ -423,9 +437,10 @@ internal static class Samples
                 ]));
 
         var logisticsExpense = new ExpenseUnit(
+            id: Guid.NewGuid(),
             name: "OzonFboLogistics",
             displayName: "Логистика FBO",
-            calculationMethod: logisticsCalculation,
+            calculation: logisticsCalculation,
             validFrom: DateTimeOffset.MinValue,
             validTo: null,
             condition: null,

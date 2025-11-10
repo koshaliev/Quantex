@@ -13,6 +13,7 @@ public class ExpenseProfile
     [JsonIgnore]
     private HashSet<string>? _requiredKeys;
 
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
@@ -47,8 +48,9 @@ public class ExpenseProfile
         }
     }
 
-    public ExpenseProfile(string name, string displayName, ICondition condition, List<ExpenseGroup> groups, string? description = null)
+    public ExpenseProfile(Guid id, string name, string displayName, ICondition condition, List<ExpenseGroup> groups, string? description = null)
     {
+        Id = id;
         Name = name ?? throw new ArgumentNullException(nameof(name));
         DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
         Description = description;

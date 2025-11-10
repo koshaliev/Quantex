@@ -4,10 +4,17 @@ namespace Quantex.API.Utilities;
 
 public static class QuantextJsonSerializerOptions
 {
-    private static JsonSerializerOptions _instance = new(JsonSerializerDefaults.Web)
+    private static JsonSerializerOptions _default = new(JsonSerializerDefaults.Web)
     {
         WriteIndented = true,
     };
 
-    public static JsonSerializerOptions Instance => _instance;
+    private static JsonSerializerOptions _withoutIndentInstance = new(JsonSerializerOptions.Web)
+    {
+        WriteIndented = false,
+    };
+
+    public static JsonSerializerOptions Default => _default;
+
+    public static JsonSerializerOptions WithoutIndentInstance => _withoutIndentInstance;
 }

@@ -13,11 +13,12 @@ public class ExpenseGroup
     [JsonIgnore]
     private List<string>? _requiredKeys;
 
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public string? Description { get; set; }
     public ICondition? Condition { get; set; }
-    public List<ExpenseUnit> Expenses { get; set; }
+    public List<ExpenseUnit> Units { get; set; }
 
     [JsonIgnore]
     public List<string> RequiredKeys
@@ -35,11 +36,11 @@ public class ExpenseGroup
                     }
                 }
 
-                for (int i = 0; i < Expenses.Count; i++)
+                for (int i = 0; i < Units.Count; i++)
                 {
-                    for (int j = 0; j < Expenses[i].RequiredKeys.Count; j++)
+                    for (int j = 0; j < Units[i].RequiredKeys.Count; j++)
                     {
-                        _requiredKeys.Add(Expenses[i].RequiredKeys[j]);
+                        _requiredKeys.Add(Units[i].RequiredKeys[j]);
                     }
                 }
             }
@@ -47,17 +48,18 @@ public class ExpenseGroup
         }
     }
 
-    public ExpenseGroup(string name, string displayName, List<ExpenseUnit> expenses, string? description = null, ICondition? condition = null)
+    public ExpenseGroup(Guid id, string name, string displayName, List<ExpenseUnit> units, string? description = null, ICondition? condition = null)
     {
+        Id = id;
         Name = name ?? throw new ArgumentNullException(nameof(name));
         DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
         Description = description;
         Condition = condition;
 
-        ArgumentNullException.ThrowIfNull(expenses);
-        if (expenses.Count == 0)
-            throw new ArgumentException("At least one expense unit must be provided.", nameof(expenses));
-        Expenses = expenses;
+        ArgumentNullException.ThrowIfNull(units);
+        if (units.Count == 0)
+            throw new ArgumentException("At least one expense unit must be provided.", nameof(units));
+        Units = units;
     }
 
     public bool TryCalculate(Dictionary<string, object> context, [NotNullWhen(true)] out Dictionary<string, decimal>? expenseAmounts)
@@ -67,10 +69,10 @@ public class ExpenseGroup
             return false;
 
         expenseAmounts = [];
-        for (int i = 0; i < Expenses.Count; i++)
+        for (int i = 0; i < Units.Count; i++)
         {
-            if (Expenses[i].TryCalculate(context, out var amount))
-                expenseAmounts[Expenses[i].Name] = amount;
+            if (Units[i].TryCalculate(context, out var amount))
+                expenseAmounts[Units[i].Name] = amount;
         }
         return true;
     }

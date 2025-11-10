@@ -9,6 +9,7 @@ namespace Quantex.Core;
 /// </summary>
 public class ExpenseScheme
 {
+    public Guid Id { get; set; }
     public string Name { get; init; }
     public string? Description { get; init; }
     public List<ExpenseProfile> Profiles { get; init; }
@@ -16,8 +17,9 @@ public class ExpenseScheme
     [JsonIgnore]
     public Dictionary<string, HashSet<string>> RequiredKeysByProfileName { get; } = [];
 
-    public ExpenseScheme(string name, List<ExpenseProfile> profiles, string? description = null)
+    public ExpenseScheme(Guid id, string name, List<ExpenseProfile> profiles, string? description = null)
     {
+        Id = id;
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description;
 

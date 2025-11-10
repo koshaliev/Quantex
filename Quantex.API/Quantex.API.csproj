@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Quantex.Core\Quantex.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
